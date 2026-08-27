@@ -1,6 +1,7 @@
 import java.io.*;
 import java.util.*;
 
+
 public class Main
 {
     public static void main (String arr[]) throws IOException {
@@ -429,6 +430,21 @@ public class Main
     }
 
 
+    public static double getDouble(BufferedReader lector) throws IOException {
+        while (true) {
+            String entrada = lector.readLine();
+            if (entrada == null) {
+                return 0;
+            }
+            try {
+                return Double.parseDouble(entrada.trim());
+            } catch (NumberFormatException e) {
+                System.out.printf("Debe ingresar un numero. Intente de nuevo: ");
+            }
+        }
+    }
+
+
     public static int getInt(BufferedReader lector) throws IOException {
         while (true) {
             String entrada = lector.readLine();
@@ -443,19 +459,6 @@ public class Main
         }
     }
 
-    public static double getDouble(BufferedReader lector) throws IOException {
-        while (true) {
-            String entrada = lector.readLine();
-            if (entrada == null) {
-                return 0;
-            }
-            try {
-                return Double.parseDouble(entrada.trim());
-            } catch (NumberFormatException e) {
-                System.out.printf("Debe ingresar un numero. Intente de nuevo: ");
-            }
-        }
-    }
 
     public static void agregarOrdenado(ArrayList<Pelicula> catalogo, Pelicula nueva) {
         int i = 0;
