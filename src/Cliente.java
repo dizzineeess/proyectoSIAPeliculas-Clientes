@@ -40,31 +40,31 @@ public class Cliente extends Persona
 
     //metodos
 
-    public void pedirPelicula(Pelicula pelicula)
+    public boolean pedirPelicula(Pelicula pelicula)
     {
         if(aptoPrestamos && peliculasEnPosesion.size() < maximoPeliculas){
-            if(pelicula.prestar())
+            if(pelicula.prestar()){
                 peliculasEnPosesion.add(pelicula);
-            
+                return true;
+            }
         }
-        else System.out.println("Cliente no puede pedir.");
+        return false;
     }
 
 
-    public void clienteDevolver(Pelicula pelicula)
+    public boolean clienteDevolver(Pelicula pelicula)
     {
         if (peliculasEnPosesion.remove(pelicula))
         {
             pelicula.devolver();
+            return true;
         }
-        else
-            System.out.println("El cliente no tenia la pelicula.");
+        return false;
     }
 
     public double clientePagar(double montoPagar) //retorna el vuelto a darle al cliente
     {
         if(multaAcumulada == 0){
-            System.out.println("El cliente no debe multas.");
             return montoPagar;
         }else if(montoPagar >= multaAcumulada)
         {
@@ -74,27 +74,29 @@ public class Cliente extends Persona
         }else
         {
             multaAcumulada -= montoPagar;
-            return 0;
+            return 0.0;
         }
     }
 
 
     @Override //buena practica para sobreescribir cualquier metodo
-    public void identificarse()
+    public String identificarse()
     {
-        System.out.println("\nRol: Cliente");
-        System.out.println("Nombre: "+getNombre());
-        System.out.println("Edad: "+getEdad());
-        System.out.println("Rut: "+getRut());
-        System.out.println("Cantidad de peliculas en posesion: "+peliculasEnPosesion.size());
+        String texto =  "";
+        
+        texto += "\nRol: Cliente";
+        texto +=  "\nNombre: "+getNombre();
+        texto +=  "\nEdad: "+getEdad();
+        texto +=  "\nRut: "+getRut();
+        texto +=  "\nCantidad de peliculas en posesion: "+peliculasEnPosesion.size();
         if(aptoPrestamos){
-            System.out.println("El cliente puede pedir peliculas");
+            texto +=  "\nEl cliente puede pedir peliculas";
         }else{
-            System.out.println("El cliente NO puede pedir peliculas");
+            texto +=  "\nEl cliente NO puede pedir peliculas";
         }
-        System.out.println("Multa actual: $"+multaAcumulada);
-        System.out.println();
-
+        texto +=  "\nMulta actual: $"+multaAcumulada;
+        
+        return texto;
         
     }
 

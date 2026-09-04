@@ -105,7 +105,7 @@ public class Main
                     {
                         Cliente mostrar = mapaClientes.get(rut);
 
-                        mostrar.identificarse();
+                        System.out.println(mostrar.identificarse());
 
                         
                     }else System.out.println("Cliente no existe");
@@ -235,7 +235,7 @@ public class Main
                     if(mapaEmpleados.containsKey(rut))
                     {
                         Encargado mostrar = mapaEmpleados.get(rut);
-                        mostrar.identificarse();
+                        System.out.println(mostrar.identificarse());
                     }else System.out.println("Empleado no existe");
                     break;
 
@@ -307,7 +307,7 @@ public class Main
                         System.out.println("\n_________________________\n");
                         for(Encargado encargado : mapaEmpleados.values())
                         {
-                            encargado.identificarse();
+                            System.out.println(encargado.identificarse());
                             System.out.println("_________________________\n");
                         }
                     }

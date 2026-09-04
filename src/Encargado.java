@@ -25,18 +25,15 @@ public class Encargado extends Persona
     // metodos
 
     @Override
-    public void identificarse()
+    public String identificarse()
     {
-        if(!idEmpleado.isEmpty() && idEmpleado != null)
-        {
-            System.out.println("Rol: Encargado");
-            System.out.println("Nombre: "+getNombre());
-            System.out.println("Rut: "+getRut());
-            System.out.println("ID de empleado: "+idEmpleado);
-            System.out.println("Turno: "+turno);
-            System.out.println("Sueldo: $"+sueldoBase);
+        return "Rol: Encargado" +
+        "\nNombre: " + getNombre() +
+        "\nRut: "+ getRut() +
+        "\nID de empleado: " + idEmpleado +
+        "\nTurno: " + turno +
+        "\nSueldo: $" + sueldoBase;
 
-        }
     }
     
     

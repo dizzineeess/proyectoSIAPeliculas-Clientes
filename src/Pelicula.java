@@ -35,7 +35,6 @@ public class Pelicula {
             return true;
 
         } else {
-            System.out.println("No hay copias disponibles."); //Cambiar esto al main si es posible
             return false;
 
         }

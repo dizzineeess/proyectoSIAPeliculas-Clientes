@@ -23,7 +23,7 @@ entonces, se restringe la creacion de personas con un new Persona (eso queda en 
 
 //metodos
 
-    public abstract void identificarse(); //cada sub clase debe implementar (o no, dependiendo si se convierte en una super) "su propio" identificarse
+    public abstract String identificarse(); //cada sub clase debe implementar (o no, dependiendo si se convierte en una super) "su propio" identificarse
 
 //getter y setters
 
