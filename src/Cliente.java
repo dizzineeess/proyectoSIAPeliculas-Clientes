@@ -51,22 +51,6 @@ public class Cliente extends Persona
         return false;
     }
 
-    public boolean pedirPelicula(ArrayList<Pelicula> PeliculasAPedir) //sobrecarga, preguntar cuantas peliculas para pedir segun el maximo de peliculas, crear un arraylist para las peliculas a pedir
-    {
-        if (aptoPrestamos && peliculasEnPosesion.size() < maximoPeliculas){
-            for (int i = 0; i<PeliculasAPedir.size(); i++){
-                Pelicula actual = PeliculasAPedir.get(i);
-                if(actual.prestar()){
-                    peliculasEnPosesion.add(actual);
-                }
-            }
-            return true;
-        }
-        
-        return false;
-    }
-
-
     public boolean clienteDevolver(Pelicula pelicula)
     {
         if (!peliculasEnPosesion.isEmpty()){
@@ -75,24 +59,6 @@ public class Cliente extends Persona
                 pelicula.devolver();
                 return true;
             }
-        }
-        
-        return false;
-    }
-
-    public boolean clienteDevolver(ArrayList<Pelicula> PeliculasADevolver) //sobrecarga, preguntar cuantas peliculas para devolver segun el maximo de peliculas, crear un arraylist para las peliculas a devolver
-    {
-        if (!peliculasEnPosesion.isEmpty()){
-            for (int i = 0; i < PeliculasADevolver.size(); i++){
-                Pelicula actual = PeliculasADevolver.get(i);
-                if (peliculasEnPosesion.contains(actual)){
-                    if (peliculasEnPosesion.remove(actual))
-                    {
-                    actual.devolver();
-                    }
-                }
-            }
-            return true;
         }
         
         return false;

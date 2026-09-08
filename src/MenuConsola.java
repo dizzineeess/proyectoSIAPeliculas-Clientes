@@ -139,38 +139,53 @@ public class MenuConsola {
 
     public static void accionesCliente(BufferedReader lector, HashMap<String,Cliente> mapaClientes) throws IOException
     {
-        int opcion;
+        System.out.printf("Ingrese rut: ");
+        rut = lector.readLine();
 
-        do
+        if(mapaClientes.containsKey(rut))
         {
-            System.out.println("0 - Salir");
-            System.out.println("1 - Prestar pelicula");
-            System.out.println("2 - Recibir pelicula");
-            System.out.println("3 - ");
-            System.out.printf("Ingrese la opcion a elegir: ");
+            Cliente cliente = mapaClientes.get(rut);
 
-            opcion = getInt(lector);
+            int opcion;
+            do
+            {
+                System.out.println("0 - Salir");
+                System.out.println("1 - Pedir pelicula");
+                System.out.println("2 - Devolver pelicula");
+                System.out.println("3 - Pagar multa");
+                System.out.printf("Ingrese la opcion a elegir: ");
 
-            switch(opcion){
-                case 1:
+                opcion = getInt(lector);
 
-                    System.out.println("Aun no implementado");
+                switch(opcion){
+                    case 1:
+                        if (cliente.aptoPrestamos || cliente.peliculasEnPosesion.size() < cliente.maximoPeliculas){
+                            System.out.println("Ingrese id de la pelicula.");
+                            int id = getInt(lector);
+                            Pelicula pelicula busquedaBinariaPeliculas(catalogo,id);
+                            
+                            if (pelicula != null){
+                                cliente.pedirPelicula(pelicula);
+                                System.out.println("Pelicula pedida exitosamente.");
+                            }else{
+                                System.out.println("No se encontro la pelicula.");
+                            }
+                        }
+                        break;
+                    case 2:
+                        System.out.println("Aun no implementado");
+                        break;
+                    case 3:
+                        System.out.println("Aun no implementado");
+                        break;
+                    case 0:
+                        System.out.println("Saliendo...");
+                        break;
+                    default:
+                        System.out.println("Opcion invalida");
+                }while(opcion != 0);
 
-                    // pedirPelicula();
-                    break;
-                case 2:
-                    System.out.println("Aun no implementado");
-                    break;
-                case 3:
-                    System.out.println("Aun no implementado");
-                    break;
-                case 0:
-                    System.out.println("Saliendo...");
-                    break;
-                default:
-                    System.out.println("Opcion invalida");
-            }
-        }while(opcion != 0);
+            }else System.out.println("Cliente no existe");
 
     }
 
