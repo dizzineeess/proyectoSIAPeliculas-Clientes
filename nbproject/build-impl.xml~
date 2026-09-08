@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    Script minimo para que NetBeans reconozca y ejecute el proyecto.
+    Al abrir el proyecto, NetBeans puede regenerar este archivo.
+-->
+<project xmlns:j2seproject1="http://www.netbeans.org/ns/j2se-project/1"
+         xmlns:j2seproject3="http://www.netbeans.org/ns/j2se-project/3"
+         name="proyectoSIAPeliculas-Clientes-impl" default="default" basedir="..">
+
+    <target name="-pre-init"/>
+    <target name="-init-private">
+        <property file="nbproject/private/private.properties"/>
+    </target>
+    <target name="-init-user">
+        <property file="${user.properties.file}"/>
+    </target>
+    <target name="-init-project">
+        <property file="nbproject/project.properties"/>
+    </target>
+    <target name="-do-init">
+        <property name="build.dir" value="build"/>
+        <property name="build.classes.dir" value="${build.dir}/classes"/>
+        <property name="dist.dir" value="dist"/>
+        <property name="dist.jar" value="${dist.dir}/proyectoSIAPeliculas-Clientes.jar"/>
+        <property name="src.dir" value="src"/>
+        <property name="main.class" value="Main"/>
+        <property name="javac.source" value="11"/>
+        <property name="javac.target" value="11"/>
+        <property name="source.encoding" value="UTF-8"/>
+        <available file="${src.dir}" property="have.sources"/>
+        <condition property="have.tests">
+            <available file="test"/>
+        </condition>
+        <fail unless="have.sources">No se encontro la carpeta src.</fail>
+        <mkdir dir="${build.classes.dir}"/>
+        <mkdir dir="${dist.dir}"/>
+    </target>
+    <target name="-post-init"/>
+    <target name="init" depends="-pre-init,-init-private,-init-user,-init-project,-do-init,-post-init"/>
+
+    <target name="-pre-compile"/>
+    <target name="-do-compile" depends="init">
+        <javac srcdir="${src.dir}" destdir="${build.classes.dir}" includeantruntime="false"
+               source="${javac.source}" target="${javac.target}" encoding="${source.encoding}"
+               debug="true" deprecation="false">
+            <compilerarg line="${javac.compilerargs}"/>
+        </javac>
+        <copy todir="${build.classes.dir}">
+            <fileset dir="${src.dir}" excludes="${build.classes.excludes}"/>
+        </copy>
+    </target>
+    <target name="-post-compile"/>
+    <target name="compile" depends="init,-pre-compile,-do-compile,-post-compile" description="Compile project."/>
+
+    <target name="-pre-jar"/>
+    <target name="-do-jar-without-libraries" depends="compile">
+        <jar destfile="${dist.jar}" compress="${jar.compress}">
+            <fileset dir="${build.classes.dir}"/>
+            <manifest>
+                <attribute name="Main-Class" value="${main.class}"/>
+            </manifest>
+        </jar>
+    </target>
+    <target name="-post-jar"/>
+    <target name="jar" depends="init,compile,-pre-jar,-do-jar-without-libraries,-post-jar" description="Build JAR."/>
+
+    <target name="-pre-run"/>
+    <target name="-do-run" depends="compile">
+        <java classname="${main.class}" fork="true" failonerror="true">
+            <classpath>
+                <pathelement location="${build.classes.dir}"/>
+            </classpath>
+            <jvmarg line="${run.jvmargs}"/>
+        </java>
+    </target>
+    <target name="-post-run"/>
+    <target name="run" depends="init,compile,-pre-run,-do-run,-post-run" description="Run the main class."/>
+
+    <target name="debug" depends="compile" description="Debug project.">
+        <java classname="${main.class}" fork="true">
+            <classpath>
+                <pathelement location="${build.classes.dir}"/>
+            </classpath>
+        </java>
+    </target>
+
+    <target name="-pre-clean"/>
+    <target name="-do-clean">
+        <delete dir="${build.dir}"/>
+        <delete dir="${dist.dir}"/>
+    </target>
+    <target name="-post-clean"/>
+    <target name="clean" depends="-pre-clean,-do-clean,-post-clean" description="Clean build products."/>
+
+    <target name="javadoc" depends="init" description="Build Javadoc.">
+        <mkdir dir="${dist.dir}/javadoc"/>
+        <javadoc destdir="${dist.dir}/javadoc" source="${javac.source}" encoding="${source.encoding}"
+                 windowtitle="${application.title}">
+            <fileset dir="${src.dir}" includes="**/*.java"/>
+        </javadoc>
+    </target>
+
+    <target name="compile-test" depends="compile"/>
+    <target name="test" depends="compile-test"/>
+    <target name="default" depends="jar"/>
+</project>

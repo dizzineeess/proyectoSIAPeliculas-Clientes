@@ -54,7 +54,7 @@ public class Cliente extends Persona
     public boolean pedirPelicula(ArrayList<Pelicula> PeliculasAPedir) //sobrecarga, preguntar cuantas peliculas para pedir segun el maximo de peliculas, crear un arraylist para las peliculas a pedir
     {
         if (aptoPrestamos && peliculasEnPosesion.size() < maximoPeliculas){
-            for (int i; i<PeliculasAPedir.size(); i++){
+            for (int i = 0; i<PeliculasAPedir.size(); i++){
                 Pelicula actual = PeliculasAPedir.get(i);
                 if(actual.prestar()){
                     peliculasEnPosesion.add(actual);
@@ -69,7 +69,7 @@ public class Cliente extends Persona
 
     public boolean clienteDevolver(Pelicula pelicula)
     {
-        if (!peliculasEnPosesion.IsEmpty){
+        if (!peliculasEnPosesion.isEmpty()){
             if (peliculasEnPosesion.remove(pelicula))
             {
                 pelicula.devolver();
@@ -82,13 +82,13 @@ public class Cliente extends Persona
 
     public boolean clienteDevolver(ArrayList<Pelicula> PeliculasADevolver) //sobrecarga, preguntar cuantas peliculas para devolver segun el maximo de peliculas, crear un arraylist para las peliculas a devolver
     {
-        if (!peliculasEnPosesion.IsEmpty){
-            for (int i; i<PeliculasADevolver.size(); i++){
+        if (!peliculasEnPosesion.isEmpty()){
+            for (int i = 0; i < PeliculasADevolver.size(); i++){
                 Pelicula actual = PeliculasADevolver.get(i);
                 if (peliculasEnPosesion.contains(actual)){
                     if (peliculasEnPosesion.remove(actual))
                     {
-                    pelicula.devolver();
+                    actual.devolver();
                     }
                 }
             }
