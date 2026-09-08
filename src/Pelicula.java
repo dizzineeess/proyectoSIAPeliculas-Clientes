@@ -42,8 +42,6 @@ public class Pelicula {
     public void devolver() {
         copiasDisponibles ++;
     }
-
-
     
     
     //getter y setters

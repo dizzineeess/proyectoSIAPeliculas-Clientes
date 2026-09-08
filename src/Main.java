@@ -58,6 +58,7 @@ public class Main
             System.out.println("2 - Quitar cliente");
             System.out.println("3 - Mostrar cliente");
             System.out.println("4 - Acciones cliente");
+            System.out.println("5 - Mostrar clientes atrasados");
             System.out.printf("Ingrese la opcion a elegir: ");
 
             opcion = getInt(lector);
@@ -115,6 +116,20 @@ public class Main
 
                     accionesCliente(lector, mapaClientes);
                     
+                    break;
+                case 5:
+                    boolean hayAtrasados = false
+                    for (Cliente actual : mapaClientes.values()){
+                        if(actual.cantAtrasos>0){
+                            System.out.println(actual.identificarse());
+                            hayAtrasados = true
+                        }
+                    }
+
+                    if(!hayAtrasados){
+                        System.out.println("No hay clientes con atrasos.");
+                    }
+
                     break;
 
                 case 0:

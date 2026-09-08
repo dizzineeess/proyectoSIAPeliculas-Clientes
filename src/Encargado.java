@@ -36,7 +36,6 @@ public class Encargado extends Persona
 
     }
     
-    
     //getter y setter
     
 	public double getSueldoBase() {

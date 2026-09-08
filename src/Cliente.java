@@ -51,14 +51,50 @@ public class Cliente extends Persona
         return false;
     }
 
+    public boolean pedirPelicula(ArrayList<Pelicula> PeliculasAPedir) //sobrecarga, preguntar cuantas peliculas para pedir segun el maximo de peliculas, crear un arraylist para las peliculas a pedir
+    {
+        if (aptoPrestamos && peliculasEnPosesion.size() < maximoPeliculas){
+            for (int i; i<PeliculasAPedir.size(); i++){
+                Pelicula actual = PeliculasAPedir.get(i);
+                if(actual.prestar()){
+                    peliculasEnPosesion.add(actual);
+                }
+            }
+            return true;
+        }
+        
+        return false;
+    }
+
 
     public boolean clienteDevolver(Pelicula pelicula)
     {
-        if (peliculasEnPosesion.remove(pelicula))
-        {
-            pelicula.devolver();
+        if (!peliculasEnPosesion.IsEmpty){
+            if (peliculasEnPosesion.remove(pelicula))
+            {
+                pelicula.devolver();
+                return true;
+            }
+        }
+        
+        return false;
+    }
+
+    public boolean clienteDevolver(ArrayList<Pelicula> PeliculasADevolver) //sobrecarga, preguntar cuantas peliculas para devolver segun el maximo de peliculas, crear un arraylist para las peliculas a devolver
+    {
+        if (!peliculasEnPosesion.IsEmpty){
+            for (int i; i<PeliculasADevolver.size(); i++){
+                Pelicula actual = PeliculasADevolver.get(i);
+                if (peliculasEnPosesion.contains(actual)){
+                    if (peliculasEnPosesion.remove(actual))
+                    {
+                    pelicula.devolver();
+                    }
+                }
+            }
             return true;
         }
+        
         return false;
     }
 
@@ -77,6 +113,8 @@ public class Cliente extends Persona
             return 0.0;
         }
     }
+
+    
 
 
     @Override //buena practica para sobreescribir cualquier metodo
