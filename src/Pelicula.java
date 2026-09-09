@@ -7,6 +7,7 @@ public class Pelicula {
     private int idPelicula;
     private int cantPrestamos;
     private int copiasDisponibles; //funciona como validador de si se puede prestar la pelicula, no importa si la pelicula esta atrasada (en todo, eso importaria del cliente)
+    private int plazoEntrega; //en dias desde la fecha inicial, default en 0 (se actualiza cuando se presta)
 
     public Pelicula() {
         titulo = "";
@@ -16,6 +17,7 @@ public class Pelicula {
         idPelicula = 0;
         cantPrestamos = 0;
         copiasDisponibles = 0;
+        plazoEntrega = 0;
     }
 
     public Pelicula(String titulo, String autor, String genero, int estrenoYear, int idPelicula, int copiasDisponibles) {
@@ -26,12 +28,14 @@ public class Pelicula {
         this.idPelicula = idPelicula;
         cantPrestamos = 0;
         this.copiasDisponibles = copiasDisponibles;
+        plazoEntrega = 0;
     }
 
     public boolean prestar() {
         if (copiasDisponibles > 0) {
             copiasDisponibles --;
             cantPrestamos++;
+            PlazoEntrega = 7;
             return true;
 
         } else {
@@ -41,6 +45,11 @@ public class Pelicula {
     }
     public void devolver() {
         copiasDisponibles ++;
+        PlazoEntrega = 0;
+    }
+
+    public void extenderPlazo(int dias){
+        plazoEntrega += dias;
     }
     
     
@@ -96,6 +105,14 @@ public class Pelicula {
 
     public void setCopiasDisponibles(int copiasDisponibles) {
         this.copiasDisponibles = copiasDisponibles;
+    }
+
+    public int getPlazoEntrega() {
+        return plazoEntrega;
+    }
+
+    public void setPlazoEntrega(int plazoEntrega) {
+        this.plazoEntrega = plazoEntrega;
     }
 
 }

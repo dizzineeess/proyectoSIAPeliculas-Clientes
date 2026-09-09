@@ -153,6 +153,7 @@ public class MenuConsola {
                 System.out.println("1 - Pedir pelicula");
                 System.out.println("2 - Devolver pelicula");
                 System.out.println("3 - Pagar multa");
+                System.out.println("4 - Renovar prestamo");
                 System.out.printf("Ingrese la opcion a elegir: ");
 
                 opcion = getInt(lector);
@@ -160,7 +161,7 @@ public class MenuConsola {
                 switch(opcion){
                     case 1:
                         if (cliente.aptoPrestamos || cliente.peliculasEnPosesion.size() < cliente.maximoPeliculas){
-                            System.out.println("Ingrese id de la pelicula.");
+                            System.out.println("Ingrese id de la pelicula a pedir.");
                             int id = getInt(lector);
                             Pelicula pelicula busquedaBinariaPeliculas(catalogo,id);
                             
@@ -173,10 +174,30 @@ public class MenuConsola {
                         }
                         break;
                     case 2:
-                        System.out.println("Aun no implementado");
+                            System.out.println("Ingrese id de la pelicula a devolver.");
+                            int id = getInt(lector);
+                            Pelicula pelicula busquedaBinariaPeliculas(cliente.peliculasEnPosesion,id);
+                            
+                            if (pelicula != null){
+                                cliente.clienteDevolver(pelicula);
+                                System.out.println("Pelicula devuelta exitosamente.");
+                            }else{
+                                System.out.println("No se encontro la pelicula.");
+                            }
                         break;
                     case 3:
                         System.out.println("Aun no implementado");
+                        break;
+                    case 4:
+                            System.out.println("Ingrese id de la pelicula a renovar.");
+                            int id = getInt(lector);
+                            Pelicula pelicula busquedaBinariaPeliculas(cliente.peliculasEnPosesion,id);
+                            
+                            if (pelicula != null){
+                                //ver las sobrecargas 
+                            }else{
+                                System.out.println("No se encontro la pelicula.");
+                            }
                         break;
                     case 0:
                         System.out.println("Saliendo...");

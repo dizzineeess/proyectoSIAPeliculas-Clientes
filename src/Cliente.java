@@ -45,6 +45,7 @@ public class Cliente extends Persona
         if(aptoPrestamos && peliculasEnPosesion.size() < maximoPeliculas){
             if(pelicula.prestar()){
                 peliculasEnPosesion.add(pelicula);
+                cantPedidos ++;
                 return true;
             }
         }
@@ -64,6 +65,15 @@ public class Cliente extends Persona
         return false;
     }
 
+    public boolean actualizarAptitud(){ //sirve pero ns donde ponerlo uuuuuuffff
+        if (multaAcumulada > 0 || cantAtrasos >= 3) {
+            aptoPrestamos = false;
+        } else {
+            aptoPrestamos = true;
+        }
+        return aptoPrestamos
+    }
+
     public double clientePagar(double montoPagar) //retorna el vuelto a darle al cliente
     {
         if(multaAcumulada == 0){
@@ -79,9 +89,17 @@ public class Cliente extends Persona
             return 0.0;
         }
     }
-
     
-
+    public boolean renovarPrestamo(Pelicula pelicula){
+        if(peliculasEnPosesion.contains(pelicula && aptoPrestamos)){
+            pelicula.extenderPlazo(7); //default
+        }
+    }
+    public boolean renovarPrestamo(Pelicula pelicula, int dias){
+        if(peliculasEnPosesion.contains(pelicula && aptoPrestamos && dias < 7)){
+            pelicula.extenderPlazo(dias); //dias especificos
+        }
+    }
 
     @Override //buena practica para sobreescribir cualquier metodo
     public String identificarse()
