@@ -57,6 +57,7 @@ public class Cliente extends Persona
             if (peliculasEnPosesion.remove(pelicula))
             {
                 pelicula.devolver();
+                actualizarAptitud();
                 return true;
             }
         }
@@ -64,7 +65,7 @@ public class Cliente extends Persona
         return false;
     }
 
-    public boolean actualizarAptitud(){ //sirve pero ns donde ponerlo uuuuuuffff
+    public boolean actualizarAptitud(){
         if (multaAcumulada > 0 || cantAtrasos >= 3) {
             aptoPrestamos = false;
         } else {
@@ -81,10 +82,12 @@ public class Cliente extends Persona
         {
             double vuelto = montoPagar - multaAcumulada;
             multaAcumulada = 0;
+            actualizarAptitud();
             return vuelto;
         }else
         {
             multaAcumulada -= montoPagar;
+            actualizarAptitud();
             return 0.0;
         }
     }
