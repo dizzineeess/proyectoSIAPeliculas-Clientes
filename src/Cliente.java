@@ -1,4 +1,4 @@
-import java.util.*;
+import java.util.ArrayList;
 
 public class Cliente extends Persona
 {
@@ -6,7 +6,7 @@ public class Cliente extends Persona
     private int cantAtrasos;
     private int edad;
     private double multaAcumulada;
-    private ArrayList<Pelicula> peliculasEnPosesion;
+    private ArrayList<Pelicula> peliculasEnPosesion = new ArrayList<>();
     private int maximoPeliculas; // por defecto 3
     private boolean aptoPrestamos;
 
@@ -20,7 +20,6 @@ public class Cliente extends Persona
         cantAtrasos = 0;
         edad = 0;
         multaAcumulada = 0;
-        peliculasEnPosesion = new ArrayList<>();
         maximoPeliculas = 3;
         aptoPrestamos = true;
     }
@@ -32,7 +31,6 @@ public class Cliente extends Persona
         cantPedidos = 0;
         cantAtrasos = 0;
         multaAcumulada = 0;
-        peliculasEnPosesion = new ArrayList<>();
         maximoPeliculas = 3;
         aptoPrestamos = true;
     }
@@ -42,6 +40,7 @@ public class Cliente extends Persona
 
     public boolean pedirPelicula(Pelicula pelicula)
     {
+        if(pelicula == null) return false;
         if(aptoPrestamos && peliculasEnPosesion.size() < maximoPeliculas){
             if(pelicula.prestar()){
                 peliculasEnPosesion.add(pelicula);
@@ -51,8 +50,8 @@ public class Cliente extends Persona
         }
         return false;
     }
-
-    public boolean clienteDevolver(Pelicula pelicula)
+    
+        public boolean clienteDevolver(Pelicula pelicula)
     {
         if (!peliculasEnPosesion.isEmpty()){
             if (peliculasEnPosesion.remove(pelicula))
@@ -71,7 +70,7 @@ public class Cliente extends Persona
         } else {
             aptoPrestamos = true;
         }
-        return aptoPrestamos
+        return aptoPrestamos;
     }
 
     public double clientePagar(double montoPagar) //retorna el vuelto a darle al cliente
@@ -91,15 +90,21 @@ public class Cliente extends Persona
     }
     
     public boolean renovarPrestamo(Pelicula pelicula){
-        if(peliculasEnPosesion.contains(pelicula && aptoPrestamos)){
+        if(peliculasEnPosesion.contains(pelicula) && aptoPrestamos){
             pelicula.extenderPlazo(7); //default
+            return true;
         }
+        return false;
     }
+    
     public boolean renovarPrestamo(Pelicula pelicula, int dias){
-        if(peliculasEnPosesion.contains(pelicula && aptoPrestamos && dias < 7)){
+        if(peliculasEnPosesion.contains(pelicula) && aptoPrestamos && dias <= 7){
             pelicula.extenderPlazo(dias); //dias especificos
+            return true;
         }
+        return false;
     }
+    
 
     @Override //buena practica para sobreescribir cualquier metodo
     public String identificarse()
@@ -121,6 +126,42 @@ public class Cliente extends Persona
         return texto;
         
     }
+    
+    public Pelicula buscarPeliculaDelCliente(int idBuscada) {
+        int p = 0, u = peliculasEnPosesion.size()-1, i;
+        Pelicula enc = null;
+        
+        while ((p<=u)&&(enc == null)) {
+            i=(p+u)/2;
+            int idActual = peliculasEnPosesion.get(i).getIdPelicula();
+            if (idActual == idBuscada) enc = peliculasEnPosesion.get(i);
+            else {
+                if (idActual > idBuscada) u = i-1;
+                else p = i+1;
+            }
+        }
+        return enc;
+    }
+    public boolean buscarPeliculaDelCliente(Pelicula buscada) {
+    int p = 0;
+    int u = peliculasEnPosesion.size() - 1;
+    boolean enc = false;
+    
+    while ((p <= u) && (!enc)) {
+        int i = (p + u) / 2;
+        Pelicula actual = peliculasEnPosesion.get(i);
+        
+        if (actual.getIdPelicula() == buscada.getIdPelicula()) {
+            enc = true; 
+        } else if (actual.getIdPelicula() > buscada.getIdPelicula()) {
+            u = i - 1; 
+        } else {
+            p = i + 1; 
+        }
+    }
+    return enc;
+}
+
 
 
 

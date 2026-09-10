@@ -1,19 +1,12 @@
-
 import java.io.*;
-import java.util.*;
-
 
 public class MenuConsola {
-    private ArrayList<Pelicula> arrayListCatalogo;
-    private HashMap<String, Cliente> mapaClientes;
-    private HashMap<String, Encargado> mapaEmpleados;
+    SistemaVideoClub sistema;
     private BufferedReader lector;
 
     
-    public MenuConsola(ArrayList<Pelicula> catalogo, HashMap<String, Cliente> clientes, HashMap<String, Encargado> empleados) {
-        this.arrayListCatalogo = catalogo;
-        this.mapaClientes = clientes;
-        this.mapaEmpleados = empleados;
+    public MenuConsola(SistemaVideoClub sistema) {
+        this.sistema = sistema;
         this.lector = new BufferedReader(new InputStreamReader(System.in));
     }
     
@@ -33,13 +26,13 @@ public class MenuConsola {
 
                 switch(opcion){
                     case 1:
-                        menuPelicula(lector, arrayListCatalogo);
+                        menuPelicula(sistema);
                         break;
                     case 2:
-                        menuCliente(lector, mapaClientes);
+                        menuCliente(sistema);
                         break;
                     case 3:
-                        menuEmpleado(lector, mapaEmpleados);
+                        menuEmpleado(sistema);
                         break;
                     case 0:
                         System.out.println("Saliendo...");
@@ -54,7 +47,7 @@ public class MenuConsola {
 
     }
 
-    public static void menuCliente (BufferedReader lector, HashMap<String,Cliente> mapaClientes) throws IOException {
+    public void menuCliente (SistemaVideoClub sistema) throws IOException {
         
             int opcion;
 
@@ -87,7 +80,13 @@ public class MenuConsola {
                         edad = getInt(lector);
 
                         Cliente nuevoCliente = new Cliente(nombre, rut, edad);
-                        mapaClientes.put(rut, nuevoCliente);
+                        
+                        if (sistema.agregarCliente(nuevoCliente))
+                        {
+                            System.out.println("Cliente agregado con exito");
+                        }else  {
+                            System.out.println("El cliente ya existe");
+                        }
 
                         break;
 
@@ -96,11 +95,9 @@ public class MenuConsola {
                         System.out.printf("Ingrese rut: ");
                         rut = lector.readLine();
 
-                        if(mapaClientes.containsKey(rut))
+                        if(sistema.quitarCliente(rut))
                         {
-                            mapaClientes.remove(rut);
-                            System.out.println("Cliente eliminado");
-
+                            System.out.println("Cliente quitado con exito");
                         }else System.out.println("Cliente no existe");
                         break;
 
@@ -109,19 +106,13 @@ public class MenuConsola {
                         System.out.printf("Ingrese rut: ");
                         rut = lector.readLine();
 
-                        if(mapaClientes.containsKey(rut))
-                        {
-                            Cliente mostrar = mapaClientes.get(rut);
-
-                            System.out.println(mostrar.identificarse());
-
-
-                        }else System.out.println("Cliente no existe");
+                        System.out.println(sistema.mostrarCliente(rut));
+                        
                         break;
 
                     case 4:
 
-                        accionesCliente(lector, mapaClientes);
+                        accionesCliente(sistema);
 
                         break;
 
@@ -137,80 +128,84 @@ public class MenuConsola {
         
     }
 
-    public static void accionesCliente(BufferedReader lector, HashMap<String,Cliente> mapaClientes) throws IOException
+    public void accionesCliente(SistemaVideoClub sistema) throws IOException
     {
-        System.out.printf("Ingrese rut: ");
-        rut = lector.readLine();
-
-        if(mapaClientes.containsKey(rut))
+        int opcion;
+        String rut;
+        
+        do{
+            System.out.printf("Ingrese RUT del cliente (o digite '0' para cancelar): ");
+            rut = lector.readLine();
+    
+            if (rut.equals("0")) {
+                System.out.println("Operación cancelada por el usuario.");
+                return; 
+            }
+        }while(sistema.obtenerCliente(rut) == null);
+        
+        
+        do
         {
-            Cliente cliente = mapaClientes.get(rut);
+            System.out.println("Rut cliente actual: "+ rut + "\n");
 
-            int opcion;
-            do
-            {
-                System.out.println("0 - Salir");
-                System.out.println("1 - Pedir pelicula");
-                System.out.println("2 - Devolver pelicula");
-                System.out.println("3 - Pagar multa");
-                System.out.println("4 - Renovar prestamo");
-                System.out.printf("Ingrese la opcion a elegir: ");
+            System.out.println("0 - Salir");
+            System.out.println("1 - Pedir pelicula");
+            System.out.println("2 - Devolver pelicula");
+            System.out.println("3 - Pagar multa");
+            System.out.println("4 - Renovar prestamo");
+            System.out.printf("Ingrese la opcion a elegir: ");
 
-                opcion = getInt(lector);
+            opcion = getInt(lector);
 
-                switch(opcion){
-                    case 1:
-                        if (cliente.aptoPrestamos || cliente.peliculasEnPosesion.size() < cliente.maximoPeliculas){
-                            System.out.println("Ingrese id de la pelicula a pedir.");
-                            int id = getInt(lector);
-                            Pelicula pelicula busquedaBinariaPeliculas(catalogo,id);
-                            
-                            if (pelicula != null){
-                                cliente.pedirPelicula(pelicula);
-                                System.out.println("Pelicula pedida exitosamente.");
-                            }else{
-                                System.out.println("No se encontro la pelicula.");
-                            }
-                        }
-                        break;
-                    case 2:
-                            System.out.println("Ingrese id de la pelicula a devolver.");
-                            int id = getInt(lector);
-                            Pelicula pelicula busquedaBinariaPeliculas(cliente.peliculasEnPosesion,id);
-                            
-                            if (pelicula != null){
-                                cliente.clienteDevolver(pelicula);
-                                System.out.println("Pelicula devuelta exitosamente.");
-                            }else{
-                                System.out.println("No se encontro la pelicula.");
-                            }
-                        break;
-                    case 3:
-                        System.out.println("Aun no implementado");
-                        break;
-                    case 4:
-                            System.out.println("Ingrese id de la pelicula a renovar.");
-                            int id = getInt(lector);
-                            Pelicula pelicula busquedaBinariaPeliculas(cliente.peliculasEnPosesion,id);
-                            
-                            if (pelicula != null){
-                                //ver las sobrecargas 
-                            }else{
-                                System.out.println("No se encontro la pelicula.");
-                            }
-                        break;
-                    case 0:
-                        System.out.println("Saliendo...");
-                        break;
-                    default:
-                        System.out.println("Opcion invalida");
-                }while(opcion != 0);
+            switch(opcion){
+                case 1:
 
-            }else System.out.println("Cliente no existe");
+                    System.out.printf("Ingrese id de la pelicula a pedir: ");
+                    int id = getInt(lector);
+                    
+                    System.out.println(sistema.prestar(id, rut));
+                    break;
 
+
+                case 2:
+
+                        System.out.printf ("Ingrese id de la pelicula a devolver: ");
+                        id = getInt(lector);
+
+                       System.out.println(sistema.recibirPeliculaPrestada(id,rut));
+                        
+                    break;
+
+
+                case 3:
+
+                    System.out.printf ("Ingrese monto pagado por el cliente: ");
+                    double monto = getDouble(lector);
+                    
+                    System.out.println(sistema.recibirPago(monto, rut));
+                    break;
+
+
+                case 4:
+
+                        System.out.println("Ingrese id de la pelicula a renovar: ");
+                        id = getInt(lector);
+                        System.out.println(sistema.renovar(id,rut));
+                        
+                    break;
+                case 0:
+                    System.out.println("Saliendo...");
+                    break;
+                default:
+                    System.out.println("Opcion invalida");
+            }
+        }while(opcion != 0);
+
+
+        
     }
 
-    public static void menuEmpleado(BufferedReader lector, HashMap<String,Encargado> mapaEmpleados) throws IOException {
+    public void menuEmpleado(SistemaVideoClub sistema) throws IOException {
         int opcion;
 
         do
@@ -235,20 +230,8 @@ public class MenuConsola {
                     System.out.printf("Ingrese rut: ");
                     rut = lector.readLine();
 
-                    if(mapaEmpleados.containsKey(rut))
-                    {
-                        System.out.println("Ya existe un empleado con ese rut");
-                        break;
-                    }
-
                     System.out.printf("Ingrese id de empleado: ");
                     idEmpleado = lector.readLine();
-
-                    if(buscarEmpleadoPorId(mapaEmpleados, idEmpleado) != null)
-                    {
-                        System.out.println("Ya existe un empleado con ese id");
-                        break;
-                    }
 
                     System.out.printf("Ingrese turno: ");
                     turno = lector.readLine();
@@ -257,34 +240,26 @@ public class MenuConsola {
                     sueldoBase = getDouble(lector);
 
                     Encargado nuevoEmpleado = new Encargado(nombre, rut, sueldoBase, idEmpleado, turno);
-                    mapaEmpleados.put(rut, nuevoEmpleado);
-                    System.out.println("Empleado agregado");
+                    
+                    System.out.println(sistema.agregarEmpleado(nuevoEmpleado));
                     break;
 
                 case 2:
-                    System.out.printf("Ingrese rut: ");
-                    rut = lector.readLine();
+                    System.out.printf("Ingrese id de empleado: ");
+                    idEmpleado = lector.readLine();
 
-                    if(mapaEmpleados.containsKey(rut))
-                    {
-                        mapaEmpleados.remove(rut);
-                        System.out.println("Empleado eliminado");
-                    }else System.out.println("Empleado no existe");
+                    System.out.println(sistema.quitarEmpleado(idEmpleado));
                     break;
 
                 case 3:
-                    System.out.printf("Ingrese rut: ");
-                    rut = lector.readLine();
+                    System.out.printf("Ingrese id de empleado: ");
+                    idEmpleado = lector.readLine();
 
-                    if(mapaEmpleados.containsKey(rut))
-                    {
-                        Encargado mostrar = mapaEmpleados.get(rut);
-                        System.out.println(mostrar.identificarse());
-                    }else System.out.println("Empleado no existe");
+                    System.out.println(sistema.mostrarEmpleado(idEmpleado));
                     break;
 
                 case 4:
-                    accionesEmpleado(lector, mapaEmpleados);
+                    accionesEmpleado(sistema);
                     break;
 
                 case 0:
@@ -298,65 +273,47 @@ public class MenuConsola {
         }while(opcion != 0);
     }
 
-    public static void accionesEmpleado(BufferedReader lector, HashMap<String,Encargado> mapaEmpleados) throws IOException
+    public void accionesEmpleado(SistemaVideoClub sistema) throws IOException
     {
         int opcion;
+        String idEmpleado;
+        do{
+            System.out.printf("Ingrese ID de empleado (o digite '0' para cancelar): ");
+            idEmpleado = lector.readLine();
+    
+            if (idEmpleado.equals("0")) {
+                System.out.println("Operación cancelada por el usuario.");
+                return; 
+            }
+        }while(sistema.obtenerEmpleado(idEmpleado) == null);
+        
 
         do
         {
+            System.out.println("ID empleado actual: "+ idEmpleado + "\n");
+
             System.out.println("0 - Salir");
             System.out.println("1 - Cambiar turno");
             System.out.println("2 - Cambiar sueldo");
-            System.out.println("3 - Mostrar todos los empleados");
             System.out.printf("Ingrese la opcion a elegir: ");
 
             opcion = getInt(lector);
 
             switch(opcion){
                 case 1:
-                    System.out.printf("Ingrese rut: ");
-                    String rut = lector.readLine();
-
-                    if(mapaEmpleados.containsKey(rut))
-                    {
-                        Encargado encargado = mapaEmpleados.get(rut);
-                        System.out.printf("Ingrese nuevo turno: ");
-                        String turno = lector.readLine();
-                        encargado.setTurno(turno);
-                        System.out.println("Turno actualizado");
-                    }else System.out.println("Empleado no existe");
+                    
+                    System.out.printf("Ingrese nuevo turno: ");
+                    String turno = lector.readLine();
+                    sistema.cambioDeTurno(idEmpleado, turno);
                     break;
 
                 case 2:
-                    System.out.printf("Ingrese rut: ");
-                    rut = lector.readLine();
 
-                    if(mapaEmpleados.containsKey(rut))
-                    {
-                        Encargado encargado = mapaEmpleados.get(rut);
-                        System.out.printf("Ingrese nuevo sueldo: ");
-                        double sueldo = getDouble(lector);
-                        encargado.setSueldoBase(sueldo);
-                        System.out.println("Sueldo actualizado");
-                    }else System.out.println("Empleado no existe");
+                    System.out.printf("Ingrese nuevo sueldo: ");
+                    double sueldo = getDouble(lector);
+                    sistema.cambioDeSueldo(idEmpleado, sueldo);
                     break;
-
-                case 3:
-                    if(mapaEmpleados.isEmpty())
-                    {
-                        System.out.println("No hay empleados registrados");
-                    }
-                    else
-                    {
-                        System.out.println("\n_________________________\n");
-                        for(Encargado encargado : mapaEmpleados.values())
-                        {
-                            System.out.println(encargado.identificarse());
-                            System.out.println("_________________________\n");
-                        }
-                    }
-                    break;
-
+                    
                 case 0:
                     System.out.println("Saliendo...");
                     break;
@@ -366,17 +323,8 @@ public class MenuConsola {
             }
         }while(opcion != 0);
     }
-
-    public static Encargado buscarEmpleadoPorId(HashMap<String,Encargado> mapaEmpleados, String idEmpleado) {
-        for(Encargado encargado : mapaEmpleados.values())
-        {
-            if(encargado.getIdEmpleado().equals(idEmpleado))
-                return encargado;
-        }
-        return null;
-    }
-
-    public static void menuPelicula (BufferedReader lector, ArrayList<Pelicula> catalogo) throws IOException {
+    
+    public void menuPelicula (SistemaVideoClub sistema) throws IOException {
 
         int opcion;
 
@@ -414,54 +362,22 @@ public class MenuConsola {
                 copiasDisponibles = getInt(lector);
 
                 Pelicula nuevaPelicula = new Pelicula(titulo, autor, genero, estrenoYear, idPelicula, copiasDisponibles);
-                agregarOrdenado(catalogo, nuevaPelicula);
+                sistema.agregarOrdenado(nuevaPelicula);
 
             }
             else if(opcion == 2)
             {
-                int idPelicula, confirmacion;
+                int idPelicula;
 
                 System.out.printf("Ingrese id de la pelicula a eliminar: ");
                 idPelicula = getInt(lector);
+                
+                System.out.println(sistema.eliminarPelicula(idPelicula));
 
-                Pelicula eliminar = busquedaBinariaPeliculas(catalogo,idPelicula);
-
-
-                if(eliminar != null)
-                {
-                    System.out.println("Titulo de la pelicula: "+eliminar.getTitulo());
-                    System.out.println("Desea continuar?");
-                    System.out.println("1 - Si\n2 - No");
-                    System.out.printf("Elija: ");
-                    confirmacion = getInt(lector);
-
-                    if(confirmacion == 1)
-                    {
-                        if (catalogo.remove(eliminar))
-                            System.out.println("Pelicula eliminada exitosamente");
-                    }else{
-                        System.out.println("Saliendo...");
-                    }
-                }
             }
             else if(opcion == 3)
             {
-
-                System.out.println("\n_________________________\n");
-
-                for(int i = 0 ; i < catalogo.size() ; i++)
-                {
-                    Pelicula act = catalogo.get(i);
-                    
-                    System.out.println("ID: "+act.getIdPelicula());
-                    System.out.println("Titulo: "+act.getTitulo());
-                    System.out.println("Año: "+act.getEstrenoYear());
-                    System.out.println("Genero: "+act.getGenero());
-                    System.out.println("Copias disponibles: "+act.getCopiasDisponibles());
-
-                    System.out.println("\n_________________________\n");
-
-                }
+                System.out.println(sistema.mostrarCatalogoPeliculas());
             }
             
             else if(opcion != 0)
@@ -503,30 +419,5 @@ public class MenuConsola {
     }
 
 
-    public static void agregarOrdenado(ArrayList<Pelicula> catalogo, Pelicula nueva) {
-        int i = 0;
-        while (i < catalogo.size() && catalogo.get(i).getIdPelicula() < nueva.getIdPelicula()) {
-            i++;
-        }
-        catalogo.add(i, nueva);
-    }
-
-    public static Pelicula busquedaBinariaPeliculas(ArrayList<Pelicula> catalogo, int idBuscada) {
-        int p = 0, u = catalogo.size()-1, i;
-        Pelicula enc = null;
-        
-        while ((p<=u)&&(enc == null)) {
-            i=(p+u)/2;
-            int idActual = catalogo.get(i).getIdPelicula();
-            if (idActual == idBuscada) enc = catalogo.get(i);
-            else {
-                if (idActual > idBuscada) u = i-1;
-                else p = i+1;
-            }
-        }
-        return enc;
-    }
-
-        
 
 }

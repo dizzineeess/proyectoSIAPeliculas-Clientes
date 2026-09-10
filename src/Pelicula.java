@@ -35,7 +35,7 @@ public class Pelicula {
         if (copiasDisponibles > 0) {
             copiasDisponibles --;
             cantPrestamos++;
-            PlazoEntrega = 7;
+            plazoEntrega = 7;
             return true;
 
         } else {
@@ -45,7 +45,7 @@ public class Pelicula {
     }
     public void devolver() {
         copiasDisponibles ++;
-        PlazoEntrega = 0;
+        plazoEntrega = 0;
     }
 
     public void extenderPlazo(int dias){

@@ -1,14 +1,11 @@
 import java.io.*;
-import java.util.*;
 import javax.swing.SwingUtilities;
 
 public class Main
 {
     public static void main (String arr[]){
         BufferedReader lector = new BufferedReader(new InputStreamReader(System.in));
-        ArrayList<Pelicula> arrayListCatalogo = new ArrayList<>();
-        HashMap<String,Cliente> mapaClientes = new HashMap<>();
-        HashMap<String,Encargado> mapaEmpleados = new HashMap<>();
+        SistemaVideoClub sistema = new SistemaVideoClub();
         
         try{
             
@@ -20,7 +17,7 @@ public class Main
             
             switch(opcion){
                 case 1:
-                    MenuConsola consola = new MenuConsola(arrayListCatalogo, mapaClientes, mapaEmpleados);
+                    MenuConsola consola = new MenuConsola(sistema);
                     consola.arrancar();
                     break;
                 
