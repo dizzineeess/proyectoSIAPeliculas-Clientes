@@ -53,11 +53,11 @@ public class SistemaVideoClub {
         return null;
     }
     
-    public Cliente obtenerEmpleado(String id)
+    public Encargado obtenerEmpleado(String id)
     {
-        if(mapaClientes.containsKey(id))
+        if(mapaEmpleados.containsKey(id))
         {
-            return mapaClientes.get(id);
+            return mapaEmpleados.get(id);
         }
         return null;
     }
