@@ -1,0 +1,12 @@
+idPelicula,titulo,autor,genero,estrenoYear,copiasDisponibles,mayor18,cantPrestamos,plazoEntrega
+101,El Viaje de Chihiro,Hayao Miyazaki,Animación,2001,4,false,12,0
+102,Parasite,Bong Joon-ho,Drama,2019,3,true,20,0
+103,Coco,Lee Unkrich,Animación,2017,5,false,18,0
+104,El Padrino,Francis Ford Coppola,Crimen,1972,2,true,9,0
+105,Interestelar,Christopher Nolan,Ciencia ficción,2014,3,false,15,0
+106,Mad Max: Furia en el camino,George Miller,Acción,2015,2,true,11,0
+107,Amélie,Jean-Pierre Jeunet,Comedia,2001,4,false,7,0
+108,El laberinto del fauno,Guillermo del Toro,Fantasía,2006,3,true,10,0
+109,Whiplash,Damien Chazelle,Drama,2014,2,true,8,0
+110,Toy Story,John Lasseter,Animación,1995,6,false,22,0
+713,Harry Potter y la piedra filosofal,J. K. Rowling,Fantasia,1997,2,false,1,7
