@@ -1,20 +1,25 @@
 package vista.ventana;
 
 import servicio.SistemaVideoClub;
-
-public class MenuVentana extends javax.swing.JPanel {
-
-    private SistemaVideoClub sistema;
+public class VentanaMenu extends javax.swing.JFrame {
     
-    public MenuVentana() {
+    SistemaVideoClub sistema; 
+    
+    private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(VentanaMenu.class.getName());
+
+    /**
+     * Creates new form NewJFrame
+     */
+    public VentanaMenu() {
         initComponents();
     }
-
-    public MenuVentana(SistemaVideoClub sistema) {
+    
+    public VentanaMenu(SistemaVideoClub sistema) {
         initComponents();
         this.sistema = sistema;
     }
-    
+
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -29,6 +34,8 @@ public class MenuVentana extends javax.swing.JPanel {
         btnPeliculasActionPerformed = new javax.swing.JButton();
         btnClientesActionPerformed = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
+
+        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         btnEmpleadosActionPerformed.setText("Menu empleados");
         btnEmpleadosActionPerformed.addActionListener(this::btnEmpleadosActionPerformedActionPerformed);
@@ -74,8 +81,8 @@ public class MenuVentana extends javax.swing.JPanel {
                 .addContainerGap(56, Short.MAX_VALUE))
         );
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
-        this.setLayout(layout);
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
+        getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -84,13 +91,9 @@ public class MenuVentana extends javax.swing.JPanel {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
-    }// </editor-fold>//GEN-END:initComponents
 
-    private void btnPeliculasActionPerformedActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPeliculasActionPerformedActionPerformed
-        // TODO add your handling code here:
-        // VentanaPelicula vPeliculas = new VentanaPelicula(sistema);
-        // vPeliculas.setVisible(true);
-    }//GEN-LAST:event_btnPeliculasActionPerformedActionPerformed
+        pack();
+    }// </editor-fold>//GEN-END:initComponents
 
     private void btnEmpleadosActionPerformedActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEmpleadosActionPerformedActionPerformed
         // TODO add your handling code here:
@@ -98,13 +101,43 @@ public class MenuVentana extends javax.swing.JPanel {
         // vEmpleados.setVisible(true);
     }//GEN-LAST:event_btnEmpleadosActionPerformedActionPerformed
 
+    private void btnPeliculasActionPerformedActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPeliculasActionPerformedActionPerformed
+        // TODO add your handling code here:
+        // VentanaPelicula vPeliculas = new VentanaPelicula(sistema);
+        // vPeliculas.setVisible(true);
+    }//GEN-LAST:event_btnPeliculasActionPerformedActionPerformed
+
     private void btnClientesActionPerformedActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClientesActionPerformedActionPerformed
         // TODO add your handling code here:
-            VentanaCliente v = new VentanaCliente(sistema);
-            v.setVisible(true);
-        
+        VentanaCliente v = new VentanaCliente(sistema);
+        v.setVisible(true);
+
     }//GEN-LAST:event_btnClientesActionPerformedActionPerformed
 
+    /**
+     * @param args the command line arguments
+     */
+    public static void main(String args[]) {
+        /* Set the Nimbus look and feel */
+        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
+        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
+         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+         */
+        try {
+            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+                if ("Nimbus".equals(info.getName())) {
+                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+                    break;
+                }
+            }
+        } catch (ReflectiveOperationException | javax.swing.UnsupportedLookAndFeelException ex) {
+            logger.log(java.util.logging.Level.SEVERE, null, ex);
+        }
+        //</editor-fold>
+
+        /* Create and display the form */
+        java.awt.EventQueue.invokeLater(() -> new VentanaMenu().setVisible(true));
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnClientesActionPerformed;
@@ -114,4 +147,3 @@ public class MenuVentana extends javax.swing.JPanel {
     private javax.swing.JPanel jPanel1;
     // End of variables declaration//GEN-END:variables
 }
-

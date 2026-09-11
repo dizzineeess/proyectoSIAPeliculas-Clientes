@@ -1,8 +1,9 @@
-import vista.ventana.MenuVentana;
 import vista.consola.MenuConsola;
 import servicio.SistemaVideoClub;
 import java.io.*;
+import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
+import vista.ventana.VentanaPrincipal;
 
 public class Main {
 
@@ -26,14 +27,22 @@ public class Main {
 
                 case 2:
                     SwingUtilities.invokeLater(new Runnable() {
-                        @Override
-                        public void run() {
-                            // Se le pasa 'sistema' para que la GUI comparta los mismos datos
-                            new MenuVentana(sistema).setVisible(true);
-                        }
-                    });
-                    break;
+                    @Override
+                    public void run() {
 
+                        JFrame marco = new JFrame("Sistema Video Club");
+                        marco.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+                        VentanaPrincipal panelMenu = new VentanaPrincipal(sistema);
+
+                        marco.add(panelMenu);
+
+                        marco.pack();
+                        marco.setLocationRelativeTo(null); 
+                        marco.setVisible(true); 
+                    }
+                });
+            break;
                 default:
                     System.out.println("Opción no válida. Fin del programa.");
                     break;
