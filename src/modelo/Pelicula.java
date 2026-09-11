@@ -1,3 +1,5 @@
+package modelo;
+
 public class Pelicula {
     
     private String titulo;
@@ -8,7 +10,8 @@ public class Pelicula {
     private int cantPrestamos;
     private int copiasDisponibles; //funciona como validador de si se puede prestar la pelicula, no importa si la pelicula esta atrasada (en todo, eso importaria del cliente)
     private int plazoEntrega; //en dias desde la fecha inicial, default en 0 (se actualiza cuando se presta)
-
+    private boolean mayor18;
+    
     public Pelicula() {
         titulo = "";
         autor = "";
@@ -18,9 +21,10 @@ public class Pelicula {
         cantPrestamos = 0;
         copiasDisponibles = 0;
         plazoEntrega = 0;
+        mayor18 = false;
     }
 
-    public Pelicula(String titulo, String autor, String genero, int estrenoYear, int idPelicula, int copiasDisponibles) {
+    public Pelicula(String titulo, String autor, String genero, int estrenoYear, int idPelicula, int copiasDisponibles, boolean mayor18) {
         this.titulo = titulo;
         this.autor = autor;
         this.genero = genero;
@@ -29,6 +33,7 @@ public class Pelicula {
         cantPrestamos = 0;
         this.copiasDisponibles = copiasDisponibles;
         plazoEntrega = 0;
+        this.mayor18 = mayor18;
     }
 
     public boolean prestar() {
@@ -113,6 +118,11 @@ public class Pelicula {
 
     public void setPlazoEntrega(int plazoEntrega) {
         this.plazoEntrega = plazoEntrega;
+    }
+    
+    public boolean isMayor18()
+    {
+        return mayor18;
     }
 
 }

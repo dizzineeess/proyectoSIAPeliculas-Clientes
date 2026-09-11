@@ -1,5 +1,11 @@
+package servicio;
+
 import java.util.ArrayList;
 import java.util.HashMap;
+
+import modelo.Cliente;
+import modelo.Encargado;
+import modelo.Pelicula;
 
 /*
     Clase creada para salvaguardar la lógica de negocio fuera de cualquier menú (sea ventana o consola).
@@ -244,26 +250,19 @@ public class SistemaVideoClub {
 
     }
     
-    public String mostrarCatalogoPeliculas()
-    {
-        String texto = "";
-        texto += ("\n_________________________\n");
-
-        for(int i = 0 ; i < arrayListCatalogo.size() ; i++)
-        {
-            Pelicula act = arrayListCatalogo.get(i);
-
-            texto += ("ID: "+act.getIdPelicula());
-            texto += ("Titulo: "+act.getTitulo());
-            texto += ("Año: "+act.getEstrenoYear());
-            texto += ("Genero: "+act.getGenero());
-            texto += ("Copias disponibles: "+act.getCopiasDisponibles());
-
-            texto += ("\n_________________________\n");
-
+    public String mostrarCatalogoPeliculas() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("\n_________________________\n");
+        for (Pelicula act : arrayListCatalogo) {
+            sb.append("ID: ").append(act.getIdPelicula())
+              .append("\nTitulo: ").append(act.getTitulo())
+              .append("\nAño: ").append(act.getEstrenoYear())
+              .append("\nGenero: ").append(act.getGenero())
+              .append("\nCopias disponibles: ").append(act.getCopiasDisponibles())
+              .append("\n_________________________\n");
         }
         
-        return texto;
+        return sb.toString();    
     }
     
 }

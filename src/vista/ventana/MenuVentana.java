@@ -1,33 +1,57 @@
+package vista.ventana;
+
 import javax.swing.*;
-import java.awt.event.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import servicio.SistemaVideoClub;
 
 public class MenuVentana extends JFrame {
-    
-    public MenuVentana() {
-        // Configuración básica de la ventana
-        setTitle("Sistema de Películas - Clientes");
-        setSize(800, 600);
+
+    private SistemaVideoClub sistema;
+
+    public MenuVentana(SistemaVideoClub sistema) {
+        this.sistema = sistema;
+
+        setTitle("Sistema de Video Club - Panel Principal");
+        setSize(500, 400);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setLocationRelativeTo(null); 
-        setLayout(null); 
+        setLocationRelativeTo(null); // Centra la ventana en pantalla
+        setLayout(new GridLayout(5, 1, 10, 10)); // Organización limpia en filas
 
-        // Crear una etiqueta de texto
-        JLabel titulo = new JLabel("Bienvenido al Sistema de Películas");
-        titulo.setBounds(300, 80, 500, 120);
-        add(titulo);
+        JLabel lblTitulo = new JLabel("GESTIÓN DEL VIDEO CLUB", SwingConstants.CENTER);
+        lblTitulo.setFont(new Font("Arial", Font.BOLD, 18));
 
-        // Crear un botón
-        JButton botonAbrirMenu = new JButton("Iniciar Menú Consola");
-        botonAbrirMenu.setBounds(200, 200, 400, 80);
-        add(botonAbrirMenu);
+        JButton btnClientes = new JButton("Módulo Clientes");
+        JButton btnEmpleados = new JButton("Módulo Empleados");
+        JButton btnPeliculas = new JButton("Catálogo de Películas");
+        JButton btnSalir = new JButton("Salir");
 
-        // Acción al hacer clic en el botón
-        botonAbrirMenu.addActionListener(new ActionListener() {
+        add(lblTitulo);
+        add(btnClientes);
+        add(btnEmpleados);
+        add(btnPeliculas);
+        add(btnSalir);
+
+
+        btnClientes.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                JOptionPane.showMessageDialog(null, "nada!!!1!");
+                VentanaClientes vClientes = new VentanaClientes(MenuVentana.this, sistema);
+                vClientes.setVisible(true);
             }
         });
-    }
 
+        btnEmpleados.addActionListener(e -> {
+            VentanaEmpleados vEmpleados = new VentanaEmpleados(MenuVentana.this, sistema);
+            vEmpleados.setVisible(true);
+        });
+
+        btnPeliculas.addActionListener(e -> {
+            VentanaPeliculas vPeliculas = new VentanaPeliculas(MenuVentana.this, sistema);
+            vPeliculas.setVisible(true);
+        });
+
+        btnSalir.addActionListener(e -> System.exit(0));
+    }
 }

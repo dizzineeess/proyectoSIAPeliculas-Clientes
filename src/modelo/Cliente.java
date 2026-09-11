@@ -1,3 +1,5 @@
+package modelo;
+
 import java.util.ArrayList;
 
 public class Cliente extends Persona
@@ -34,21 +36,40 @@ public class Cliente extends Persona
         maximoPeliculas = 3;
         aptoPrestamos = true;
     }
+    
+    public Cliente(String nombre, String rut)
+    {
+        super(nombre, rut);
+        this.edad = -1;
+        cantPedidos = 0;
+        cantAtrasos = 0;
+        multaAcumulada = 0;
+        maximoPeliculas = 3;
+        aptoPrestamos = true;
+    }
 
 
     //metodos
 
     public boolean pedirPelicula(Pelicula pelicula)
     {
-        if(pelicula == null) return false;
-        if(aptoPrestamos && peliculasEnPosesion.size() < maximoPeliculas){
-            if(pelicula.prestar()){
-                peliculasEnPosesion.add(pelicula);
-                cantPedidos ++;
-                return true;
-            }
+        if (pelicula == null) return false;
+
+        if (!aptoPrestamos || peliculasEnPosesion.size() >= maximoPeliculas) {
+            return false;
         }
-        return false;
+
+        if (pelicula.isMayor18() && edad < 18) {
+            return false; 
+        }
+
+        if (pelicula.prestar()) {
+            peliculasEnPosesion.add(pelicula);
+            cantPedidos++;
+            return true;
+        }
+
+        return false;    
     }
     
         public boolean clienteDevolver(Pelicula pelicula)
@@ -116,6 +137,14 @@ public class Cliente extends Persona
         
         texto += "\nRol: Cliente";
         texto +=  "\nNombre: "+getNombre();
+        if(getEdad() == -1)
+        {
+            texto +=  "\nEdad: No especificada";
+        }
+        else
+        {
+            texto +=  "\nEdad: "+getEdad();
+        }
         texto +=  "\nEdad: "+getEdad();
         texto +=  "\nRut: "+getRut();
         texto +=  "\nCantidad de peliculas en posesion: "+peliculasEnPosesion.size();
@@ -191,7 +220,9 @@ public class Cliente extends Persona
     }
 
     public void setEdad(int edad){
-        this.edad = edad;
+        if(edad > 120 || edad < 0){
+            throw new IllegalArgumentException("La edad debe estar entre 0 y 120 años.");
+        }this.edad = edad;
     }
 
     public int getMaximoPeliculas(){
