@@ -1,7 +1,7 @@
 nombre,rut,idEmpleado,sueldoBase,turno
 Natalia Fuentes,16789012-3,EMP-003,700000.0,Noche
 Oscar Beltrán,17890123-4,EMP-014,580000.0,Mañana
-Patricia Lagos,18901234-5,EMP-025,610000.0,Tarde
+Patricia Lagos,18901234-5,EMP-025,200000.0,Tarde
 Quintín Mora,15678901-6,EMP-036,590000.0,Noche
 Rosa Espinoza,12340987-7,EMP-047,640000.0,Mañana
 Martín Reyes,14567890-2,EMP-002,620000.0,Tarde

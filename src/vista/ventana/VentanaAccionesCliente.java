@@ -229,7 +229,10 @@ public class VentanaAccionesCliente extends javax.swing.JPanel {
 
     private void btnSalirActionPerformedActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalirActionPerformedActionPerformed
         // TODO add your handling code here:
-        this.setVisible(false);
+        java.awt.Window ventana = javax.swing.SwingUtilities.getWindowAncestor(this);
+        if (ventana != null) {
+            ventana.dispose();
+        }
     }//GEN-LAST:event_btnSalirActionPerformedActionPerformed
 
 

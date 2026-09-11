@@ -4,6 +4,7 @@
  */
 package vista.ventana;
 
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
@@ -185,8 +186,12 @@ public class VentanaCliente extends javax.swing.JPanel {
             String rutLimpio = rutIngresado.trim();
 
             if (sistema.obtenerCliente(rutLimpio) != null) {
-                VentanaAccionesCliente vSub = new VentanaAccionesCliente(sistema, rutLimpio);
-                vSub.setVisible(true);
+                JFrame marco = new JFrame("Acciones cliente");
+                marco.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+                marco.add(new VentanaAccionesCliente(sistema, rutLimpio));
+                marco.pack();
+                marco.setLocationRelativeTo(this);
+                marco.setVisible(true);
             } else {
                 JOptionPane.showMessageDialog(this, "No existe un cliente registrado con ese RUT.", "Cliente No Encontrado", JOptionPane.ERROR_MESSAGE);
             }
@@ -204,7 +209,4 @@ public class VentanaCliente extends javax.swing.JPanel {
     private javax.swing.JPanel jPanel1;
     // End of variables declaration//GEN-END:variables
 
-    void setLocationRelativeTo(Object object) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
 }

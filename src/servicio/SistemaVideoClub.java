@@ -320,6 +320,21 @@ public class SistemaVideoClub {
         }else return ("Empleado no existe");
 
     }
+
+    public String intercambioDeTurno(String idEmpleado, String idOtroEmpleado)
+    {
+        Encargado empleado = mapaEmpleados.get(idEmpleado);
+        Encargado otro = mapaEmpleados.get(idOtroEmpleado);
+        if (empleado == null || otro == null) {
+            return "Uno o ambos empleados no existen";
+        }
+        if (idEmpleado.equals(idOtroEmpleado)) {
+            return "Debe elegir un empleado distinto";
+        }
+        empleado.cambiarTurno(otro);
+        guardarDatos();
+        return "Turnos intercambiados";
+    }
     
     public String cambioDeSueldo(String id, double sueldo)
     {

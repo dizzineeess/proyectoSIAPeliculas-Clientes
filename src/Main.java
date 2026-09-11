@@ -1,9 +1,8 @@
 import vista.consola.MenuConsola;
 import servicio.SistemaVideoClub;
 import java.io.*;
-import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
-import vista.ventana.VentanaPrincipal;
+import vista.ventana.VentanaMenu;
 
 public class Main {
 
@@ -30,17 +29,9 @@ public class Main {
                     SwingUtilities.invokeLater(new Runnable() {
                     @Override
                     public void run() {
-
-                        JFrame marco = new JFrame("Sistema Video Club");
-                        marco.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
-                        VentanaPrincipal panelMenu = new VentanaPrincipal(sistema);
-
-                        marco.add(panelMenu);
-
-                        marco.pack();
-                        marco.setLocationRelativeTo(null); 
-                        marco.setVisible(true); 
+                        VentanaMenu menu = new VentanaMenu(sistema);
+                        menu.setLocationRelativeTo(null);
+                        menu.setVisible(true);
                     }
                 });
             break;

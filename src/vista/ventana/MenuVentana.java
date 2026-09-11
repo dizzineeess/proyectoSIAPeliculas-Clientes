@@ -1,6 +1,7 @@
 package vista.ventana;
 
 import servicio.SistemaVideoClub;
+import javax.swing.JFrame;
 
 public class MenuVentana extends javax.swing.JPanel {
 
@@ -87,21 +88,31 @@ public class MenuVentana extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnPeliculasActionPerformedActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPeliculasActionPerformedActionPerformed
-        // TODO add your handling code here:
-        // VentanaPelicula vPeliculas = new VentanaPelicula(sistema);
-        // vPeliculas.setVisible(true);
+        JFrame marco = new JFrame("Menu peliculas");
+        marco.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        marco.add(new VentanaPelicula(sistema));
+        marco.pack();
+        marco.setLocationRelativeTo(this);
+        marco.setVisible(true);
     }//GEN-LAST:event_btnPeliculasActionPerformedActionPerformed
 
     private void btnEmpleadosActionPerformedActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEmpleadosActionPerformedActionPerformed
-        // TODO add your handling code here:
-        // VentanaEmpleado vEmpleados = new VentanaEmpleado(sistema);
-        // vEmpleados.setVisible(true);
+        JFrame marco = new JFrame("Menu empleados");
+        marco.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        marco.add(new VentanaEmpleado(sistema));
+        marco.pack();
+        marco.setLocationRelativeTo(this);
+        marco.setVisible(true);
     }//GEN-LAST:event_btnEmpleadosActionPerformedActionPerformed
 
     private void btnClientesActionPerformedActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClientesActionPerformedActionPerformed
         // TODO add your handling code here:
-            VentanaCliente v = new VentanaCliente(sistema);
-            v.setVisible(true);
+        JFrame marco = new JFrame("Menu clientes");
+        marco.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        marco.add(new VentanaCliente(sistema));
+        marco.pack();
+        marco.setLocationRelativeTo(this);
+        marco.setVisible(true);
         
     }//GEN-LAST:event_btnClientesActionPerformedActionPerformed
 
