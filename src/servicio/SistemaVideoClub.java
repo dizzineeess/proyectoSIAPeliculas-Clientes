@@ -1,11 +1,15 @@
 package servicio;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 
 import modelo.Cliente;
 import modelo.Encargado;
 import modelo.Pelicula;
+import util.PersistenciaCSV;
 
 /*
     Clase creada para salvaguardar la lógica de negocio fuera de cualquier menú (sea ventana o consola).
@@ -17,12 +21,66 @@ public class SistemaVideoClub {
     private ArrayList<Pelicula> arrayListCatalogo = new ArrayList<>();
     private HashMap<String, Cliente> mapaClientes = new HashMap<>();
     private HashMap<String, Encargado> mapaEmpleados = new HashMap<>();
+
+    public SistemaVideoClub() {
+        PersistenciaCSV.cargar(this);
+    }
+
+    public Collection<Cliente> listarClientes() {
+        return Collections.unmodifiableCollection(mapaClientes.values());
+    }
+
+    public Collection<Encargado> listarEmpleados() {
+        return Collections.unmodifiableCollection(mapaEmpleados.values());
+    }
+
+    public List<Pelicula> listarPeliculas() {
+        return Collections.unmodifiableList(arrayListCatalogo);
+    }
+
+    public boolean incorporarCliente(Cliente agregar) {
+        if (agregar == null || mapaClientes.containsKey(agregar.getRut())) {
+            return false;
+        }
+        mapaClientes.put(agregar.getRut(), agregar);
+        return true;
+    }
+
+    public boolean incorporarEmpleado(Encargado encargado) {
+        if (encargado == null || mapaEmpleados.containsKey(encargado.getIdEmpleado())) {
+            return false;
+        }
+        mapaEmpleados.put(encargado.getIdEmpleado(), encargado);
+        return true;
+    }
+
+    public void incorporarPelicula(Pelicula nueva) {
+        if (nueva == null || busquedaBinariaPeliculas(nueva.getIdPelicula()) != null) {
+            return;
+        }
+        int i = 0;
+        while (i < arrayListCatalogo.size() && arrayListCatalogo.get(i).getIdPelicula() < nueva.getIdPelicula()) {
+            i++;
+        }
+        arrayListCatalogo.add(i, nueva);
+    }
+
+    public void incorporarPrestamo(String rut, int idPelicula) {
+        Cliente cliente = mapaClientes.get(rut);
+        Pelicula pelicula = busquedaBinariaPeliculas(idPelicula);
+        if (cliente != null && pelicula != null) {
+            cliente.cargarPeliculaEnPosesion(pelicula);
+        }
+    }
+
+    private void guardarDatos() {
+        PersistenciaCSV.guardar(this);
+    }
    
     public boolean agregarCliente(Cliente agregar)
     {
-        if(!mapaClientes.containsKey(agregar.getRut()))
-        {
-            mapaClientes.put(agregar.getRut(), agregar);
+        if (incorporarCliente(agregar)) {
+            guardarDatos();
             return true;
         }
         return false;
@@ -33,6 +91,7 @@ public class SistemaVideoClub {
         if(mapaClientes.containsKey(key))
         {
             mapaClientes.remove(key);
+            guardarDatos();
             return true;
         }
         return false;
@@ -73,6 +132,7 @@ public class SistemaVideoClub {
         Cliente cliente = mapaClientes.get(rut);
         Pelicula pelicula = busquedaBinariaPeliculas(id);
         if ( cliente.pedirPelicula(pelicula) ){
+            guardarDatos();
             return "Pelicula prestada exitosamente.";
         } else {
             return "No se pudo prestar.";
@@ -81,11 +141,8 @@ public class SistemaVideoClub {
 
     
     public void agregarOrdenado(Pelicula nueva) {
-        int i = 0;
-        while (i < arrayListCatalogo.size() && arrayListCatalogo.get(i).getIdPelicula() < nueva.getIdPelicula()) {
-            i++;
-        }
-        arrayListCatalogo.add(i, nueva);
+        incorporarPelicula(nueva);
+        guardarDatos();
     }
 
     
@@ -130,6 +187,7 @@ public class SistemaVideoClub {
         Cliente cliente = mapaClientes.get(rut);
         
         double vuelto = cliente.clientePagar(monto);
+        guardarDatos();
         
         return "Pago exitoso." + 
                 "\nEstado multa: " + cliente.getMultaAcumulada() + 
@@ -150,6 +208,7 @@ public class SistemaVideoClub {
         if( c.buscarPeliculaDelCliente(p) )
         {
             c.clienteDevolver(p);
+            guardarDatos();
             return "Recepcion exitosa";
         }
         
@@ -169,6 +228,7 @@ public class SistemaVideoClub {
         Pelicula p = cliente.buscarPeliculaDelCliente(id);
                 if(cliente.renovarPrestamo(p))
         {
+            guardarDatos();
             return "Renovacion exitosa." +
                     "\nDias restantes: " + p.getPlazoEntrega();
         }
@@ -191,6 +251,7 @@ public class SistemaVideoClub {
         Pelicula p = cliente.buscarPeliculaDelCliente(id);
                 if(cliente.renovarPrestamo(p,dias))
         {
+            guardarDatos();
             return "Renovacion exitosa." +
                     "\nDias restantes: " + p.getPlazoEntrega();
         }
@@ -200,9 +261,8 @@ public class SistemaVideoClub {
     
     public String agregarEmpleado(Encargado e)
     {
-        if(!mapaEmpleados.containsKey(e.getIdEmpleado()))
-        {
-            mapaEmpleados.put(e.getIdEmpleado(), e);
+        if (incorporarEmpleado(e)) {
+            guardarDatos();
             return "Empleado ingresado con exito";
         }
         return "Ya existe un empleado con ese codigo";
@@ -214,6 +274,7 @@ public class SistemaVideoClub {
         if(mapaEmpleados.containsKey(id))
         {
             mapaEmpleados.remove(id);
+            guardarDatos();
             return ("Empleado eliminado");
         }else return ("Empleado no existe");
     }
@@ -254,6 +315,7 @@ public class SistemaVideoClub {
         {
             Encargado encargado = mapaEmpleados.get(id);
             encargado.cambiarTurno(turno);
+            guardarDatos();
             return ("Turno actualizado");
         }else return ("Empleado no existe");
 
@@ -266,6 +328,7 @@ public class SistemaVideoClub {
             Encargado encargado = mapaEmpleados.get(id);
 
             encargado.setSueldoBase(sueldo);
+            guardarDatos();
             return ("Sueldo actualizado");
         }else return ("Empleado no existe");
     }
@@ -284,8 +347,10 @@ public class SistemaVideoClub {
         Pelicula eliminar = busquedaBinariaPeliculas(id);
         if(eliminar != null)
         {
-            if (arrayListCatalogo.remove(eliminar))
+            if (arrayListCatalogo.remove(eliminar)) {
+                guardarDatos();
                 return ("Pelicula eliminada exitosamente");
+            }
             }                
         return ("No se elimino la pelicula");
         
