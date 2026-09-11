@@ -1,0 +1,12 @@
+nombre,rut,edad,cantPedidos,cantAtrasos,multaAcumulada,maximoPeliculas,aptoPrestamos
+Diego Rojas,16543210-9,45,12,3,8500.0,3,false
+Isabel Núñez,13456789-6,35,4,0,0.0,3,true
+Elena Vargas,11223344-7,19,2,0,0.0,3,true
+Ana Torres,12345678-5,22,3,0,0.0,3,true
+Hugo Castro,17654321-4,52,15,4,12000.0,3,false
+Bruno Díaz,18765432-1,17,1,0,0.0,3,true
+Gabriela Pino,15432109-8,28,5,2,3200.0,3,false
+Jorge Silva,19876543-3,21,6,1,500.0,3,false
+Claudio Vergara,21521843-0,-1,1,0,0.0,3,true
+Camila Soto,9876543-K,31,8,1,1500.0,3,false
+Felipe Muñoz,20876543-2,16,0,0,0.0,3,true
