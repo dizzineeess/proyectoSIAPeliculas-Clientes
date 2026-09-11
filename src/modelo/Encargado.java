@@ -34,8 +34,17 @@ public class Encargado extends Persona
         this.turno = "N/A";
     }
 
-
     // metodos
+
+    public void cambiarTurno(String turno) {
+        this.turno = turno;
+    }
+
+    public void cambiarTurno(Encargado encargadoNuevo) { //sobrecarga para cambiar de turno con otro empleado
+        String turnoActual = this.turno;
+        this.turno = encargadoNuevo.getTurno();
+        encargadoNuevo.setTurno(turnoActual);
+    }
 
     @Override
     public String identificarse()

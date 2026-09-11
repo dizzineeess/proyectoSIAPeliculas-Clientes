@@ -160,19 +160,41 @@ public class SistemaVideoClub {
     {
         if(!mapaClientes.containsKey(rut))
         {
-            return "Cliente no existe";
+            return "Cliente no existe.";
         }else if(busquedaBinariaPeliculas(id) == null)
         {
-            return "No se encontro la pelicula";
+            return "No se encontro la pelicula.";
         }
         Cliente cliente = mapaClientes.get(rut);
         Pelicula p = cliente.buscarPeliculaDelCliente(id);
                 if(cliente.renovarPrestamo(p))
         {
-            return "Renovacion exitosa" +
+            return "Renovacion exitosa." +
                     "\nDias restantes: " + p.getPlazoEntrega();
         }
-        return "Renovacion fallida";
+        return "Renovacion fallida.";
+
+    }
+
+    public String renovar(int id, String rut, int dias) //sobrecarga en consola
+    {
+        if(!mapaClientes.containsKey(rut))
+        {
+            return "Cliente no existe.";
+        }else if(busquedaBinariaPeliculas(id) == null)
+        {
+            return "No se encontro la pelicula.";
+        }else if(dias > 7){
+            return "No es posible renovar por mas de una semana a la vez.";
+        }
+        Cliente cliente = mapaClientes.get(rut);
+        Pelicula p = cliente.buscarPeliculaDelCliente(id);
+                if(cliente.renovarPrestamo(p,dias))
+        {
+            return "Renovacion exitosa." +
+                    "\nDias restantes: " + p.getPlazoEntrega();
+        }
+        return "Renovacion fallida.";
 
     }
     
@@ -230,12 +252,24 @@ public class SistemaVideoClub {
         if(mapaEmpleados.containsKey(id))
         {
             Encargado encargado = mapaEmpleados.get(id);
-            encargado.setTurno(turno);
+            encargado.cambiarTurno(turno);
             return ("Turno actualizado");
         }else return ("Empleado no existe");
 
     }
     
+    public String cambioDeTurno(String id, String idN) //sobrecagra en consola
+    {
+        if(mapaEmpleados.containsKey(id) && mapaEmpleados.containsKey(idN))
+        {
+            Encargado encargado = mapaEmpleados.get(id);
+            Encargado encargadoN = mapaEmpleados.get(idN)
+            encargado.cambiarTurno(encargadoN);
+            return ("Turnos actualizados.");
+        }else return ("Empleados no existen.");
+
+    }
+
     public String cambioDeSueldo(String id, double sueldo)
     {
         if(mapaEmpleados.containsKey(id))

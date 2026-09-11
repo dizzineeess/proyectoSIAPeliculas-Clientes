@@ -97,7 +97,8 @@ public class SubMenuEmpleado {
 
             System.out.println("0 - Salir");
             System.out.println("1 - Cambiar turno");
-            System.out.println("2 - Cambiar sueldo");
+            System.out.println("2 - Cambiar turno con otro empleado");
+            System.out.println("3 - Cambiar sueldo");
             System.out.printf("Ingrese la opcion a elegir: ");
 
             opcion = LecturaDatos.getInt(lector);
@@ -111,6 +112,13 @@ public class SubMenuEmpleado {
                     break;
 
                 case 2:
+
+                    System.out.printf("Ingrese el ID del otro empleado: ");
+                    int idEmpleadoNuevo = LecturaDatos.getInt(lector);
+                    sistema.cambioDeTurno(idEmpleado, idEmpleadoNuevo);
+                    break;
+            
+                case 3:
 
                     System.out.printf("Ingrese nuevo sueldo: ");
                     double sueldo = LecturaDatos.getDouble(lector);

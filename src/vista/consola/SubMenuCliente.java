@@ -121,6 +121,7 @@ public class SubMenuCliente {
             System.out.println("2 - Devolver pelicula");
             System.out.println("3 - Pagar multa");
             System.out.println("4 - Renovar prestamo");
+            System.out.println("5 - Renovar prestamo por dias especificos");
             System.out.printf("Ingrese la opcion a elegir: ");
 
             opcion = LecturaDatos.getInt(lector);
@@ -159,6 +160,15 @@ public class SubMenuCliente {
                         System.out.println("Ingrese id de la pelicula a renovar: ");
                         id = LecturaDatos.getInt(lector);
                         System.out.println(sistema.renovar(id,rut));
+                        
+                    break;
+                case 5:
+
+                        System.out.println("Ingrese id de la pelicula a renovar: ");
+                        id = LecturaDatos.getInt(lector);
+                        System.out.println("Ingrese los dias a renovar (hasta una semana): ");
+                        dias = LecturaDatos.getInt(lector);
+                        System.out.println(sistema.renovar(id,rut,dias));
                         
                     break;
                 case 0:
