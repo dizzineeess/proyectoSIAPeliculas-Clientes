@@ -104,6 +104,10 @@ public class Pelicula {
         return cantPrestamos;
     }
 
+    public void setCantPrestamos(int cantPrestamos) {
+        this.cantPrestamos = cantPrestamos;
+    }
+
     public int getCopiasDisponibles() {
         return copiasDisponibles;
     }

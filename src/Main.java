@@ -10,6 +10,7 @@ public class Main {
     public static void main(String[] args) {
         BufferedReader lector = new BufferedReader(new InputStreamReader(System.in));
         SistemaVideoClub sistema = new SistemaVideoClub();
+        System.out.println("Datos cargados desde la carpeta data/");
 
         try {
             int opcion;

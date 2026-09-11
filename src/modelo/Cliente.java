@@ -71,6 +71,24 @@ public class Cliente extends Persona
 
         return false;    
     }
+
+    public void cargarPeliculaEnPosesion(Pelicula pelicula) {
+        if (pelicula == null) {
+            return;
+        }
+        int i = 0;
+        while (i < peliculasEnPosesion.size() && peliculasEnPosesion.get(i).getIdPelicula() < pelicula.getIdPelicula()) {
+            i++;
+        }
+        if (i < peliculasEnPosesion.size() && peliculasEnPosesion.get(i).getIdPelicula() == pelicula.getIdPelicula()) {
+            return;
+        }
+        peliculasEnPosesion.add(i, pelicula);
+    }
+
+    public ArrayList<Pelicula> getPeliculasEnPosesion() {
+        return peliculasEnPosesion;
+    }
     
         public boolean clienteDevolver(Pelicula pelicula)
     {
