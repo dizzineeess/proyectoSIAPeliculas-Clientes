@@ -27,9 +27,22 @@ entonces, se restringe la creacion de personas con un new Persona (eso queda en 
 
 //metodos
 
+    public static String normalizarRut(String rut) {
+        if (rut == null) {
+            return null;
+        }
+        String limpio = rut.trim().replace(".", "").replace(" ", "");
+        int guion = limpio.lastIndexOf('-');
+        if (guion >= 0 && guion == limpio.length() - 2) {
+            limpio = limpio.substring(0, guion + 1) + Character.toUpperCase(limpio.charAt(guion + 1));
+        }
+        return limpio;
+    }
+
     public static void validarRut(String rut) {
-        if (rut == null || !rut.matches("\\d{7,8}-[\\dkK]")) {
-            throw new RutInvalidoException("El RUT ingresado no tiene un formato válido (ej: 12345678-K).");
+        String limpio = normalizarRut(rut);
+        if (limpio == null || !limpio.matches("\\d{7,8}-[\\dkK]")) {
+            throw new RutInvalidoException("El RUT ingresado no tiene un formato válido (ej: 12345678-K). Valor recibido: " + rut);
         }
     }
     public abstract String identificarse(); //cada sub clase debe implementar (o no, dependiendo si se convierte en una super) "su propio" identificarse
@@ -51,8 +64,9 @@ entonces, se restringe la creacion de personas con un new Persona (eso queda en 
     }
 
     public void setRut(String rut) {
-        validarRut(rut);
-        this.rut = rut;
+        String limpio = normalizarRut(rut);
+        validarRut(limpio);
+        this.rut = limpio;
     }    
 
 

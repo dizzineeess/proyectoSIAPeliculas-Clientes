@@ -126,7 +126,7 @@ public class VentanaCliente extends javax.swing.JPanel {
                 String nombre = JOptionPane.showInputDialog(this, "Ingrese Nombre del cliente:", "Agregar Cliente", JOptionPane.QUESTION_MESSAGE);
                 if (nombre != null && !nombre.trim().isEmpty()) {
 
-                    modelo.Cliente nuevo = new modelo.Cliente(rut.trim(), nombre.trim());
+                    modelo.Cliente nuevo = new modelo.Cliente(nombre.trim(), rut.trim());
                     boolean exito = sistema.agregarCliente(nuevo);
 
                     if (exito) {

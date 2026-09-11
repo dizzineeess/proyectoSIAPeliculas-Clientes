@@ -1,9 +1,13 @@
 package vista.ventana;
 
+import java.awt.GridLayout;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
+import javax.swing.JTextField;
 import modelo.Encargado;
 import servicio.SistemaVideoClub;
 
@@ -103,28 +107,44 @@ public class VentanaEmpleado extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnAgregarEmpleadoActionPerformedActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarEmpleadoActionPerformedActionPerformed
-        String nombre = JOptionPane.showInputDialog(this, "Ingrese nombre:", "Agregar Empleado", JOptionPane.QUESTION_MESSAGE);
-        if (nombre == null || nombre.trim().isEmpty()) {
+        JTextField nombreField = new JTextField(20);
+        JTextField rutField = new JTextField(20);
+        JTextField idField = new JTextField(20);
+        JTextField turnoField = new JTextField(20);
+        JTextField sueldoField = new JTextField(20);
+
+        JPanel formulario = new JPanel(new GridLayout(0, 2, 8, 8));
+        formulario.add(new JLabel("Nombre:"));
+        formulario.add(nombreField);
+        formulario.add(new JLabel("RUT (ej: 12.345.678-K):"));
+        formulario.add(rutField);
+        formulario.add(new JLabel("ID empleado (ej: EMP-001):"));
+        formulario.add(idField);
+        formulario.add(new JLabel("Turno:"));
+        formulario.add(turnoField);
+        formulario.add(new JLabel("Sueldo base:"));
+        formulario.add(sueldoField);
+
+        int opcion = JOptionPane.showConfirmDialog(
+                this,
+                formulario,
+                "Agregar Empleado",
+                JOptionPane.OK_CANCEL_OPTION,
+                JOptionPane.PLAIN_MESSAGE);
+
+        if (opcion != JOptionPane.OK_OPTION) {
             return;
         }
 
-        String rut = JOptionPane.showInputDialog(this, "Ingrese RUT (ej: 12345678-K):", "Agregar Empleado", JOptionPane.QUESTION_MESSAGE);
-        if (rut == null || rut.trim().isEmpty()) {
-            return;
-        }
+        String nombre = nombreField.getText();
+        String rut = rutField.getText();
+        String idEmpleado = idField.getText();
+        String turno = turnoField.getText();
+        String inputSueldo = sueldoField.getText();
 
-        String idEmpleado = JOptionPane.showInputDialog(this, "Ingrese ID de empleado (ej: EMP-001):", "Agregar Empleado", JOptionPane.QUESTION_MESSAGE);
-        if (idEmpleado == null || idEmpleado.trim().isEmpty()) {
-            return;
-        }
-
-        String turno = JOptionPane.showInputDialog(this, "Ingrese turno:", "Agregar Empleado", JOptionPane.QUESTION_MESSAGE);
-        if (turno == null || turno.trim().isEmpty()) {
-            return;
-        }
-
-        String inputSueldo = JOptionPane.showInputDialog(this, "Ingrese sueldo base:", "Agregar Empleado", JOptionPane.QUESTION_MESSAGE);
-        if (inputSueldo == null || inputSueldo.trim().isEmpty()) {
+        if (nombre.trim().isEmpty() || rut.trim().isEmpty() || idEmpleado.trim().isEmpty()
+                || turno.trim().isEmpty() || inputSueldo.trim().isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Todos los campos son obligatorios.", "Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
 

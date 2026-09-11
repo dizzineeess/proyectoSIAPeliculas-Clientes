@@ -1,8 +1,13 @@
 package vista.ventana;
 
+import java.awt.GridLayout;
+import javax.swing.JCheckBox;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
+import javax.swing.JTextField;
 import modelo.Pelicula;
 import servicio.SistemaVideoClub;
 
@@ -93,52 +98,65 @@ public class VentanaPelicula extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnAgregarPeliculaActionPerformedActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarPeliculaActionPerformedActionPerformed
-        String titulo = JOptionPane.showInputDialog(this, "Ingrese titulo:", "Agregar Pelicula", JOptionPane.QUESTION_MESSAGE);
-        if (titulo == null || titulo.trim().isEmpty()) {
+        JTextField tituloField = new JTextField(20);
+        JTextField autorField = new JTextField(20);
+        JTextField generoField = new JTextField(20);
+        JTextField anioField = new JTextField(20);
+        JTextField idField = new JTextField(20);
+        JTextField copiasField = new JTextField(20);
+        JCheckBox mayor18Check = new JCheckBox("Restriccion de edad (+18)");
+
+        JPanel formulario = new JPanel(new GridLayout(0, 2, 8, 8));
+        formulario.add(new JLabel("Titulo:"));
+        formulario.add(tituloField);
+        formulario.add(new JLabel("Autor:"));
+        formulario.add(autorField);
+        formulario.add(new JLabel("Genero:"));
+        formulario.add(generoField);
+        formulario.add(new JLabel("Anio de publicacion:"));
+        formulario.add(anioField);
+        formulario.add(new JLabel("ID de la pelicula:"));
+        formulario.add(idField);
+        formulario.add(new JLabel("Copias en stock:"));
+        formulario.add(copiasField);
+        formulario.add(new JLabel(""));
+        formulario.add(mayor18Check);
+
+        int opcion = JOptionPane.showConfirmDialog(
+                this,
+                formulario,
+                "Agregar Pelicula",
+                JOptionPane.OK_CANCEL_OPTION,
+                JOptionPane.PLAIN_MESSAGE);
+
+        if (opcion != JOptionPane.OK_OPTION) {
             return;
         }
 
-        String autor = JOptionPane.showInputDialog(this, "Ingrese autor:", "Agregar Pelicula", JOptionPane.QUESTION_MESSAGE);
-        if (autor == null || autor.trim().isEmpty()) {
-            return;
-        }
+        String titulo = tituloField.getText();
+        String autor = autorField.getText();
+        String genero = generoField.getText();
+        String inputAnio = anioField.getText();
+        String inputId = idField.getText();
+        String inputCopias = copiasField.getText();
 
-        String genero = JOptionPane.showInputDialog(this, "Ingrese genero:", "Agregar Pelicula", JOptionPane.QUESTION_MESSAGE);
-        if (genero == null || genero.trim().isEmpty()) {
+        if (titulo.trim().isEmpty() || autor.trim().isEmpty() || genero.trim().isEmpty()
+                || inputAnio.trim().isEmpty() || inputId.trim().isEmpty() || inputCopias.trim().isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Todos los campos son obligatorios.", "Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
 
         try {
-            String inputAnio = JOptionPane.showInputDialog(this, "Ingrese anio de publicacion:", "Agregar Pelicula", JOptionPane.QUESTION_MESSAGE);
-            if (inputAnio == null || inputAnio.trim().isEmpty()) {
-                return;
-            }
             int estrenoYear = Integer.parseInt(inputAnio.trim());
-
-            String inputId = JOptionPane.showInputDialog(this, "Ingrese ID de la pelicula:", "Agregar Pelicula", JOptionPane.QUESTION_MESSAGE);
-            if (inputId == null || inputId.trim().isEmpty()) {
-                return;
-            }
             int idPelicula = Integer.parseInt(inputId.trim());
+            int copiasDisponibles = Integer.parseInt(inputCopias.trim());
 
             if (sistema.busquedaBinariaPeliculas(idPelicula) != null) {
                 JOptionPane.showMessageDialog(this, "Ya existe una pelicula con ese ID.", "Error", JOptionPane.ERROR_MESSAGE);
                 return;
             }
 
-            String inputCopias = JOptionPane.showInputDialog(this, "Ingrese cantidad de copias en stock:", "Agregar Pelicula", JOptionPane.QUESTION_MESSAGE);
-            if (inputCopias == null || inputCopias.trim().isEmpty()) {
-                return;
-            }
-            int copiasDisponibles = Integer.parseInt(inputCopias.trim());
-
-            int restriccion = JOptionPane.showConfirmDialog(this, "La pelicula tiene restriccion de edad (+18)?", "Agregar Pelicula", JOptionPane.YES_NO_OPTION);
-            if (restriccion == JOptionPane.CLOSED_OPTION) {
-                return;
-            }
-            boolean mayor18 = restriccion == JOptionPane.YES_OPTION;
-
-            Pelicula nueva = new Pelicula(titulo.trim(), autor.trim(), genero.trim(), estrenoYear, idPelicula, copiasDisponibles, mayor18);
+            Pelicula nueva = new Pelicula(titulo.trim(), autor.trim(), genero.trim(), estrenoYear, idPelicula, copiasDisponibles, mayor18Check.isSelected());
             sistema.agregarOrdenado(nueva);
             JOptionPane.showMessageDialog(this, "Pelicula agregada con exito.", "Exito", JOptionPane.INFORMATION_MESSAGE);
         } catch (NumberFormatException e) {
