@@ -27,7 +27,7 @@ git clone https://github.com/dizzineeess/videoClub
 
 ## 2 - Ejecución.
 
-###### Primer paso: Abrir el proyecto en NetBeans
+#### Primer paso: Abrir el proyecto en NetBeans
 1. Abre Apache NetBeans.
 2. Ve al menú superior: `File` -> `Open Project...` (o presiona `Ctrl + Shift + O`).
 3. Navega hasta la carpeta donde clonaste o extrajiste el proyecto, selecciona la carpeta `videoClub` y haz clic en **Open Project**.
