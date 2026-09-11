@@ -4,7 +4,7 @@
   - IDE recomendado NetBeans 21 (o inferior)
 
 
-# Instrucciones de instalacuón y ejecución
+# Instrucciones de instalación y ejecución
 ## 1 - Instalación.
 
 #### Opción A. Clonar el repositorio. 
