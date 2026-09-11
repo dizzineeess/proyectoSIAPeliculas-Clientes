@@ -19,7 +19,7 @@ public class SubMenuCliente {
                 System.out.println("0 - Salir");
                 System.out.println("1 - Agregar cliente");
                 System.out.println("2 - Quitar cliente");
-                System.out.println("3 - Mostrar cliente");
+                System.out.println("3 - Mostrar clientes");
                 System.out.println("4 - Acciones cliente");
                 System.out.println("5 - Mostrar clientes atrasados");
                 System.out.printf("Ingrese la opcion a elegir: ");
@@ -65,11 +65,8 @@ public class SubMenuCliente {
                         break;
 
                     case 3:
-
-                        System.out.printf("Ingrese rut: ");
-                        rut = LecturaDatos.leerRut(lector);
-
-                        System.out.println(sistema.mostrarCliente(rut));
+                        
+                        System.out.println(sistema.mostrarTodosClientes());
                         
                         break;
 
@@ -114,7 +111,7 @@ public class SubMenuCliente {
         
         do
         {
-            System.out.println("Rut cliente actual: "+ rut + "\n");
+            System.out.println("\n\nRut cliente actual: "+ rut + "\n");
 
             System.out.println("0 - Salir");
             System.out.println("1 - Pedir pelicula");
@@ -122,6 +119,8 @@ public class SubMenuCliente {
             System.out.println("3 - Pagar multa");
             System.out.println("4 - Renovar prestamo");
             System.out.println("5 - Renovar prestamo por dias especificos");
+            System.out.println("6 - Mostrar datos cliente");
+
             System.out.printf("Ingrese la opcion a elegir: ");
 
             opcion = LecturaDatos.getInt(lector);
@@ -167,9 +166,15 @@ public class SubMenuCliente {
                         System.out.println("Ingrese id de la pelicula a renovar: ");
                         id = LecturaDatos.getInt(lector);
                         System.out.println("Ingrese los dias a renovar (hasta una semana): ");
-                        dias = LecturaDatos.getInt(lector);
+                        int dias = LecturaDatos.getInt(lector);
                         System.out.println(sistema.renovar(id,rut,dias));
                         
+                    break;
+                    
+                case 6:
+                    
+                    System.out.println(sistema.mostrarCliente(rut));
+                    
                     break;
                 case 0:
                     System.out.println("Saliendo...");

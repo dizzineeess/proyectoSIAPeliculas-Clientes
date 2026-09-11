@@ -145,7 +145,6 @@ public class Cliente extends Persona
         {
             texto +=  "\nEdad: "+getEdad();
         }
-        texto +=  "\nEdad: "+getEdad();
         texto +=  "\nRut: "+getRut();
         texto +=  "\nCantidad de peliculas en posesion: "+peliculasEnPosesion.size();
         if(aptoPrestamos){

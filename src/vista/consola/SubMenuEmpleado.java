@@ -113,10 +113,8 @@ public class SubMenuEmpleado {
 
                 case 2:
 
-                    System.out.printf("Ingrese el ID del otro empleado: ");
-                    int idEmpleadoNuevo = LecturaDatos.getInt(lector);
-                    sistema.cambioDeTurno(idEmpleado, idEmpleadoNuevo);
-                    break;
+                    System.out.printf("nada: ");
+                    
             
                 case 3:
 

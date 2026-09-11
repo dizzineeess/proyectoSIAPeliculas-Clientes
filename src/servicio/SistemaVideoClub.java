@@ -221,16 +221,17 @@ public class SistemaVideoClub {
     public String mostrarClientesAtrasados()
     {
         boolean hayAtrasados = false;
-        mapaClientes.forEach((rut, cliente) -> {
-            if(!cliente.getCantAtrasos() > 0){
+        
+        for(Cliente cliente : mapaClientes.values()) {
+            if(cliente.getCantAtrasos()> 0){
                 cliente.identificarse();
                 System.out.println("\n_________________________\n");
                 hayAtrasados = true;
             }
-        });
+        }
 
         if(hayAtrasados){
-            return;
+            return "a";
         }else{
             return "No existen clientes con atarasos.";
         }
@@ -258,18 +259,6 @@ public class SistemaVideoClub {
 
     }
     
-    public String cambioDeTurno(String id, String idN) //sobrecagra en consola
-    {
-        if(mapaEmpleados.containsKey(id) && mapaEmpleados.containsKey(idN))
-        {
-            Encargado encargado = mapaEmpleados.get(id);
-            Encargado encargadoN = mapaEmpleados.get(idN)
-            encargado.cambiarTurno(encargadoN);
-            return ("Turnos actualizados.");
-        }else return ("Empleados no existen.");
-
-    }
-
     public String cambioDeSueldo(String id, double sueldo)
     {
         if(mapaEmpleados.containsKey(id))
@@ -313,6 +302,23 @@ public class SistemaVideoClub {
               .append("\nGenero: ").append(act.getGenero())
               .append("\nCopias disponibles: ").append(act.getCopiasDisponibles())
               .append("\n_________________________\n");
+        }
+        
+        return sb.toString();    
+    }
+    
+    public String mostrarTodosClientes()
+    {
+        if(mapaClientes.isEmpty())
+        {
+            return "\nNo hay clientes para mostrar\n";
+        }
+        StringBuilder sb = new StringBuilder();
+        sb.append("\n_________________________\n");
+        for (Cliente act : mapaClientes.values()) {
+            String mostrar = act.getRut();
+            sb.append(mostrarCliente(mostrar))
+            .append("\n_________________________\n");
         }
         
         return sb.toString();    
