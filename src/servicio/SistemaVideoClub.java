@@ -195,6 +195,25 @@ public class SistemaVideoClub {
             return ("Empleado eliminado");
         }else return ("Empleado no existe");
     }
+
+    public String mostrarClientesAtrasados()
+    {
+        boolean hayAtrasados = false;
+        mapaClientes.forEach((rut, cliente) -> {
+            if(!cliente.getCantAtrasos() > 0){
+                cliente.identificarse();
+                System.out.println("\n_________________________\n");
+                hayAtrasados = true;
+            }
+        });
+
+        if(hayAtrasados){
+            return;
+        }else{
+            return "No existen clientes con atarasos.";
+        }
+
+    }
     
     public String mostrarEmpleado(String id)
     {

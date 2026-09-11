@@ -21,6 +21,7 @@ public class SubMenuCliente {
                 System.out.println("2 - Quitar cliente");
                 System.out.println("3 - Mostrar cliente");
                 System.out.println("4 - Acciones cliente");
+                System.out.println("5 - Mostrar clientes atrasados");
                 System.out.printf("Ingrese la opcion a elegir: ");
 
                 opcion = LecturaDatos.getInt(lector);
@@ -75,6 +76,11 @@ public class SubMenuCliente {
                     case 4:
 
                         accionesCliente(sistema, lector);
+
+                        break;
+                    case 5:
+
+                        sistema.mostrarClientesAtrasados();
 
                         break;
 
