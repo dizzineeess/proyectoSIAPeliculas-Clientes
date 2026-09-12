@@ -22,6 +22,7 @@ public class SubMenuCliente {
                 System.out.println("3 - Mostrar clientes");
                 System.out.println("4 - Acciones cliente");
                 System.out.println("5 - Mostrar clientes atrasados");
+                System.out.println("6 - Editar cliente");
                 System.out.printf("Ingrese la opcion a elegir: ");
 
                 opcion = LecturaDatos.getInt(lector);
@@ -79,6 +80,37 @@ public class SubMenuCliente {
 
                         sistema.mostrarClientesAtrasados();
 
+                        break;
+
+                    case 6:
+                        System.out.printf("Ingrese rut del cliente a editar: ");
+                        rut = LecturaDatos.leerRut(lector);
+                        Cliente clienteEditar = sistema.obtenerCliente(rut);
+                        if (clienteEditar == null) {
+                            System.out.println("Cliente no existe");
+                            break;
+                        }
+
+                        System.out.println(clienteEditar.identificarse());
+                        System.out.printf("Nuevo nombre (Enter para mantener): ");
+                        nombre = lector.readLine();
+                        if (nombre == null || nombre.trim().isEmpty()) {
+                            nombre = clienteEditar.getNombre();
+                        }
+
+                        System.out.printf("Nueva edad (Enter para mantener): ");
+                        String edadTexto = lector.readLine();
+                        Integer edadNueva = null;
+                        if (edadTexto != null && !edadTexto.trim().isEmpty()) {
+                            try {
+                                edadNueva = Integer.parseInt(edadTexto.trim());
+                            } catch (NumberFormatException e) {
+                                System.out.println("La edad debe ser un numero entero.");
+                                break;
+                            }
+                        }
+
+                        System.out.println(sistema.editarCliente(rut, nombre, edadNueva));
                         break;
 
                     case 0:

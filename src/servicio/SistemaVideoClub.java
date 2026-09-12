@@ -9,6 +9,7 @@ import java.util.List;
 import modelo.Cliente;
 import modelo.Encargado;
 import modelo.Pelicula;
+import modelo.Persona;
 import util.PersistenciaCSV;
 
 /*
@@ -97,6 +98,26 @@ public class SistemaVideoClub {
         return false;
 
     }
+
+    public String editarCliente(String rut, String nombre, Integer edad) {
+        Cliente cliente = obtenerCliente(rut);
+        if (cliente == null) {
+            return "Cliente no existe";
+        }
+        if (nombre == null || nombre.trim().isEmpty()) {
+            return "El nombre no puede estar vacio";
+        }
+        try {
+            if (edad != null) {
+                cliente.setEdad(edad);
+            }
+            cliente.setNombre(nombre.trim());
+            guardarDatos();
+            return "Cliente actualizado con exito";
+        } catch (RuntimeException e) {
+            return e.getMessage();
+        }
+    }
     
     public String mostrarCliente(String key)
     {
@@ -111,9 +132,15 @@ public class SistemaVideoClub {
     
     public Cliente obtenerCliente(String rut)
     {
-        if(mapaClientes.containsKey(rut))
-        {
+        if (rut == null) {
+            return null;
+        }
+        if (mapaClientes.containsKey(rut)) {
             return mapaClientes.get(rut);
+        }
+        String clave = Persona.normalizarRut(rut.trim());
+        if (mapaClientes.containsKey(clave)) {
+            return mapaClientes.get(clave);
         }
         return null;
     }
@@ -277,6 +304,35 @@ public class SistemaVideoClub {
             guardarDatos();
             return ("Empleado eliminado");
         }else return ("Empleado no existe");
+    }
+
+    public String editarEmpleado(String id, String nombre, String rut, String turno, Double sueldo) {
+        Encargado encargado = obtenerEmpleado(id);
+        if (encargado == null) {
+            return "Empleado no existe";
+        }
+        if (nombre == null || nombre.trim().isEmpty()) {
+            return "El nombre no puede estar vacio";
+        }
+        if (rut == null || rut.trim().isEmpty()) {
+            return "El RUT no puede estar vacio";
+        }
+        if (turno == null || turno.trim().isEmpty()) {
+            return "El turno no puede estar vacio";
+        }
+        try {
+            Persona.validarRut(rut.trim());
+            if (sueldo != null) {
+                encargado.setSueldoBase(sueldo);
+            }
+            encargado.setRut(rut.trim());
+            encargado.setNombre(nombre.trim());
+            encargado.setTurno(turno.trim());
+            guardarDatos();
+            return "Empleado actualizado con exito";
+        } catch (RuntimeException e) {
+            return e.getMessage();
+        }
     }
 
     public String mostrarClientesAtrasados()

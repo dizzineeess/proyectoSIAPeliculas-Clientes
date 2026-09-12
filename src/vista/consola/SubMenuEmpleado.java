@@ -18,6 +18,7 @@ public class SubMenuEmpleado {
             System.out.println("2 - Quitar empleado");
             System.out.println("3 - Mostrar empleado");
             System.out.println("4 - Acciones empleado");
+            System.out.println("5 - Editar empleado");
             System.out.printf("Ingrese la opcion a elegir: ");
 
             opcion = LecturaDatos.getInt(lector);
@@ -63,6 +64,49 @@ public class SubMenuEmpleado {
 
                 case 4:
                     accionesEmpleado(sistema, lector);
+                    break;
+
+                case 5:
+                    System.out.printf("Ingrese id de empleado: ");
+                    idEmpleado = lector.readLine();
+                    Encargado empleadoEditar = sistema.obtenerEmpleado(idEmpleado);
+                    if (empleadoEditar == null) {
+                        System.out.println("Empleado no existe");
+                        break;
+                    }
+
+                    System.out.println(empleadoEditar.identificarse());
+                    System.out.printf("Nuevo nombre (Enter para mantener): ");
+                    nombre = lector.readLine();
+                    if (nombre == null || nombre.trim().isEmpty()) {
+                        nombre = empleadoEditar.getNombre();
+                    }
+
+                    System.out.printf("Nuevo rut (Enter para mantener): ");
+                    String rutNuevo = lector.readLine();
+                    if (rutNuevo == null || rutNuevo.trim().isEmpty()) {
+                        rutNuevo = empleadoEditar.getRut();
+                    }
+
+                    System.out.printf("Nuevo turno (Enter para mantener): ");
+                    turno = lector.readLine();
+                    if (turno == null || turno.trim().isEmpty()) {
+                        turno = empleadoEditar.getTurno();
+                    }
+
+                    System.out.printf("Nuevo sueldo (Enter para mantener): ");
+                    String sueldoTexto = lector.readLine();
+                    Double sueldoNuevo = null;
+                    if (sueldoTexto != null && !sueldoTexto.trim().isEmpty()) {
+                        try {
+                            sueldoNuevo = Double.parseDouble(sueldoTexto.trim());
+                        } catch (NumberFormatException e) {
+                            System.out.println("El sueldo debe ser un numero.");
+                            break;
+                        }
+                    }
+
+                    System.out.println(sistema.editarEmpleado(idEmpleado, nombre, rutNuevo, turno, sueldoNuevo));
                     break;
 
                 case 0:

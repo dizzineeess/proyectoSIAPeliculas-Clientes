@@ -34,6 +34,7 @@ public class VentanaEmpleado extends javax.swing.JPanel {
         jLabel1 = new javax.swing.JLabel();
         btnMostrarEmpleadoActionPerformed = new javax.swing.JButton();
         btnAgregarEmpleadoActionPerformed = new javax.swing.JButton();
+        btnEditarEmpleadoActionPerformed = new javax.swing.JButton();
 
         btnQuitarEmpleadoActionPerformed.setText("Quitar");
         btnQuitarEmpleadoActionPerformed.addActionListener(this::btnQuitarEmpleadoActionPerformedActionPerformed);
@@ -52,6 +53,9 @@ public class VentanaEmpleado extends javax.swing.JPanel {
         btnAgregarEmpleadoActionPerformed.setText("Agregar");
         btnAgregarEmpleadoActionPerformed.addActionListener(this::btnAgregarEmpleadoActionPerformedActionPerformed);
 
+        btnEditarEmpleadoActionPerformed.setText("Editar");
+        btnEditarEmpleadoActionPerformed.addActionListener(this::btnEditarEmpleadoActionPerformedActionPerformed);
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -65,7 +69,8 @@ public class VentanaEmpleado extends javax.swing.JPanel {
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(btnQuitarEmpleadoActionPerformed, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(btnAgregarEmpleadoActionPerformed, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(btnAgregarEmpleadoActionPerformed, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnEditarEmpleadoActionPerformed, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(18, 18, 18)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(btnMostrarEmpleadoActionPerformed, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -85,6 +90,8 @@ public class VentanaEmpleado extends javax.swing.JPanel {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnQuitarEmpleadoActionPerformed, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnAccionesEmpleadoActionPerformed, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addComponent(btnEditarEmpleadoActionPerformed, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
 
@@ -205,9 +212,71 @@ public class VentanaEmpleado extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_btnAccionesEmpleadoActionPerformedActionPerformed
 
+    private void btnEditarEmpleadoActionPerformedActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarEmpleadoActionPerformedActionPerformed
+        String id = JOptionPane.showInputDialog(this, "Ingrese ID del empleado a editar:", "Editar Empleado", JOptionPane.QUESTION_MESSAGE);
+        if (id == null || id.trim().isEmpty()) {
+            return;
+        }
+
+        Encargado empleado = sistema.obtenerEmpleado(id.trim());
+        if (empleado == null) {
+            JOptionPane.showMessageDialog(this, "No existe un empleado registrado con ese ID.", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        JTextField nombreField = new JTextField(empleado.getNombre(), 20);
+        JTextField rutField = new JTextField(empleado.getRut(), 20);
+        JTextField turnoField = new JTextField(empleado.getTurno(), 20);
+        JTextField sueldoField = new JTextField(String.valueOf(empleado.getSueldoBase()), 20);
+
+        JPanel formulario = new JPanel(new GridLayout(0, 2, 8, 8));
+        formulario.add(new JLabel("ID (no editable):"));
+        formulario.add(new JLabel(empleado.getIdEmpleado()));
+        formulario.add(new JLabel("Nombre:"));
+        formulario.add(nombreField);
+        formulario.add(new JLabel("RUT:"));
+        formulario.add(rutField);
+        formulario.add(new JLabel("Turno:"));
+        formulario.add(turnoField);
+        formulario.add(new JLabel("Sueldo base:"));
+        formulario.add(sueldoField);
+
+        int opcion = JOptionPane.showConfirmDialog(
+                this,
+                formulario,
+                "Editar Empleado",
+                JOptionPane.OK_CANCEL_OPTION,
+                JOptionPane.PLAIN_MESSAGE);
+
+        if (opcion != JOptionPane.OK_OPTION) {
+            return;
+        }
+
+        String nombre = nombreField.getText();
+        String rut = rutField.getText();
+        String turno = turnoField.getText();
+        String inputSueldo = sueldoField.getText();
+        Double sueldo = null;
+        if (inputSueldo != null && !inputSueldo.trim().isEmpty()) {
+            try {
+                sueldo = Double.parseDouble(inputSueldo.trim());
+            } catch (NumberFormatException e) {
+                JOptionPane.showMessageDialog(this, "El sueldo debe ser un numero valido.", "Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+        } else {
+            JOptionPane.showMessageDialog(this, "El sueldo no puede quedar vacio.", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        String resultado = sistema.editarEmpleado(empleado.getIdEmpleado(), nombre, rut, turno, sueldo);
+        JOptionPane.showMessageDialog(this, resultado, "Editar Empleado", JOptionPane.INFORMATION_MESSAGE);
+    }//GEN-LAST:event_btnEditarEmpleadoActionPerformedActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAccionesEmpleadoActionPerformed;
     private javax.swing.JButton btnAgregarEmpleadoActionPerformed;
+    private javax.swing.JButton btnEditarEmpleadoActionPerformed;
     private javax.swing.JButton btnMostrarEmpleadoActionPerformed;
     private javax.swing.JButton btnQuitarEmpleadoActionPerformed;
     private javax.swing.JLabel jLabel1;

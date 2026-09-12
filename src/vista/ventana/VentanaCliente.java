@@ -4,10 +4,15 @@
  */
 package vista.ventana;
 
+import java.awt.GridLayout;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
+import javax.swing.JTextField;
+import modelo.Cliente;
 import servicio.SistemaVideoClub;
 
 public class VentanaCliente extends javax.swing.JPanel {
@@ -37,6 +42,7 @@ public class VentanaCliente extends javax.swing.JPanel {
         btnMostrarTodosClientesActionPerformed = new javax.swing.JButton();
         btnClientesAtrasadosActionPerformed = new javax.swing.JButton();
         btnAgregarClienteActionPerformed = new javax.swing.JButton();
+        btnEditarClienteActionPerformed = new javax.swing.JButton();
 
         btnQuitarClienteActionPerformed.setText("Quitar");
         btnQuitarClienteActionPerformed.addActionListener(this::btnQuitarClienteActionPerformedActionPerformed);
@@ -58,6 +64,9 @@ public class VentanaCliente extends javax.swing.JPanel {
         btnAgregarClienteActionPerformed.setText("Agregar");
         btnAgregarClienteActionPerformed.addActionListener(this::btnAgregarClienteActionPerformedActionPerformed);
 
+        btnEditarClienteActionPerformed.setText("Editar");
+        btnEditarClienteActionPerformed.addActionListener(this::btnEditarClienteActionPerformedActionPerformed);
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -76,7 +85,8 @@ public class VentanaCliente extends javax.swing.JPanel {
                         .addGap(18, 18, 18)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(btnClientesAtrasadosActionPerformed, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(btnAccionesClienteActionPerformed, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addComponent(btnAccionesClienteActionPerformed, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnEditarClienteActionPerformed, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
@@ -93,7 +103,9 @@ public class VentanaCliente extends javax.swing.JPanel {
                     .addComponent(btnQuitarClienteActionPerformed, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnAccionesClienteActionPerformed, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addComponent(btnMostrarTodosClientesActionPerformed, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnMostrarTodosClientesActionPerformed, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnEditarClienteActionPerformed, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
 
@@ -198,11 +210,65 @@ public class VentanaCliente extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_btnAccionesClienteActionPerformedActionPerformed
 
+    private void btnEditarClienteActionPerformedActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarClienteActionPerformedActionPerformed
+        String rut = JOptionPane.showInputDialog(this, "Ingrese RUT del cliente a editar:", "Editar Cliente", JOptionPane.QUESTION_MESSAGE);
+        if (rut == null || rut.trim().isEmpty()) {
+            return;
+        }
+
+        Cliente cliente = sistema.obtenerCliente(rut.trim());
+        if (cliente == null) {
+            JOptionPane.showMessageDialog(this, "El RUT ingresado no existe en el sistema.", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        JTextField nombreField = new JTextField(cliente.getNombre(), 20);
+        JTextField edadField = new JTextField(cliente.getEdad() == -1 ? "" : String.valueOf(cliente.getEdad()), 20);
+
+        JPanel formulario = new JPanel(new GridLayout(0, 2, 8, 8));
+        formulario.add(new JLabel("RUT (no editable):"));
+        formulario.add(new JLabel(cliente.getRut()));
+        formulario.add(new JLabel("Nombre:"));
+        formulario.add(nombreField);
+        formulario.add(new JLabel("Edad:"));
+        formulario.add(edadField);
+
+        int opcion = JOptionPane.showConfirmDialog(
+                this,
+                formulario,
+                "Editar Cliente",
+                JOptionPane.OK_CANCEL_OPTION,
+                JOptionPane.PLAIN_MESSAGE);
+
+        if (opcion != JOptionPane.OK_OPTION) {
+            return;
+        }
+
+        String nombre = nombreField.getText();
+        String inputEdad = edadField.getText();
+        Integer edad = null;
+        if (inputEdad != null && !inputEdad.trim().isEmpty()) {
+            try {
+                edad = Integer.parseInt(inputEdad.trim());
+            } catch (NumberFormatException e) {
+                JOptionPane.showMessageDialog(this, "La edad debe ser un numero entero.", "Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+        } else if (cliente.getEdad() != -1) {
+            JOptionPane.showMessageDialog(this, "La edad no puede quedar vacia.", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        String resultado = sistema.editarCliente(cliente.getRut(), nombre, edad);
+        JOptionPane.showMessageDialog(this, resultado, "Editar Cliente", JOptionPane.INFORMATION_MESSAGE);
+    }//GEN-LAST:event_btnEditarClienteActionPerformedActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAccionesClienteActionPerformed;
     private javax.swing.JButton btnAgregarClienteActionPerformed;
     private javax.swing.JButton btnClientesAtrasadosActionPerformed;
+    private javax.swing.JButton btnEditarClienteActionPerformed;
     private javax.swing.JButton btnMostrarTodosClientesActionPerformed;
     private javax.swing.JButton btnQuitarClienteActionPerformed;
     private javax.swing.JLabel jLabel1;
